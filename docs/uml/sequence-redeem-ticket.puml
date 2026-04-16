@@ -1,0 +1,54 @@
+@startuml sequence_redeem_ticket
+title Redeem Ticket — Sequence Diagram
+
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 8
+
+actor "Ticket Holder" as User
+participant ":TicketController" as Ctrl
+participant ":TicketService" as Svc
+participant ":ITicketRepository" as TicketRepo
+participant ":IEventRepository" as EventRepo
+participant ":Ticket" as Ticket
+participant ":Event" as Event
+
+User -> Ctrl ++ : POST /tickets/{id}/redeem
+Ctrl -> Svc ++ : redeemTicket(ticketId)
+
+Svc -> TicketRepo ++ : findById(ticketId)
+TicketRepo --> Svc -- : ticket
+
+alt ticket not found
+    Svc --> Ctrl : throw NotFoundException
+    Ctrl --> User : 404 Not Found
+end
+
+Svc -> Ticket ++ : isValid()
+Ticket --> Svc -- : true / false
+
+alt already used
+    Svc --> Ctrl : throw ConflictException
+    Ctrl --> User : 409 Ticket already used
+end
+
+Svc -> EventRepo ++ : findById(ticket.eventId)
+EventRepo --> Svc -- : event
+
+Svc -> Event ++ : isExpired()
+Event --> Svc -- : true / false
+
+alt event expired
+    Svc --> Ctrl : throw ConflictException
+    Ctrl --> User : 409 Event has ended
+end
+
+Svc -> Ticket ++ : markAsUsed()
+Ticket --> Svc --
+
+Svc -> TicketRepo ++ : update(ticket)
+TicketRepo --> Svc -- : updatedTicket
+
+Svc --> Ctrl -- : ticket (USED)
+Ctrl --> User -- : 200 OK { status: USED }
+
+@enduml

@@ -1,0 +1,62 @@
+@startuml activity_ticket_lifecycle
+title Ticket Lifecycle — Activity Diagram
+
+skinparam activityBackgroundColor #F0F8FF
+skinparam activityBorderColor #333
+
+start
+
+:Admin opens /admin dashboard;
+:Admin fills event creation form;
+
+if (Form valid?) then (yes)
+    :System creates Event via EventFactory;
+    :System saves Event via IEventRepository;
+else (no)
+    :System displays validation errors;
+    stop
+endif
+
+:Admin clicks "Generate Ticket";
+
+if (Event has expired?) then (yes)
+    :System shows "Event has ended";
+    stop
+else (no)
+endif
+
+if (Event has remaining capacity?) then (yes)
+    :Strategy generates unique ticket code;
+    :System creates Ticket (status = VALID);
+    :System decrements event capacity;
+    :System returns ticket URL to admin;
+else (no)
+    :System shows "No tickets remaining";
+    stop
+endif
+
+:Admin shares ticket URL with user;
+:User opens ticket URL;
+:System displays ticket details + QR code + countdown;
+
+if (User clicks Redeem?) then (yes)
+    if (Event expired?) then (yes)
+        :System shows "Event has ended — ticket expired";
+        stop
+    else (no)
+    endif
+
+    if (Ticket status is VALID?) then (yes)
+        :System marks ticket as USED;
+        :System records redemption timestamp;
+        :System displays "Redeemed successfully";
+    else (already used)
+        :System displays "Already used";
+    endif
+else (no)
+    :User keeps ticket page open;
+endif
+
+stop
+
+@enduml

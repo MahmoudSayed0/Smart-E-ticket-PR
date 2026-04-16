@@ -1,0 +1,52 @@
+@startuml use_case_diagram
+title Smart E-Ticketing System — Use Case Diagram
+
+left to right direction
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+
+actor "Administrator" as Admin
+actor "Ticket Holder" as Holder
+actor "Gate Staff" as Staff
+
+rectangle "Smart E-Ticketing System" {
+    usecase "UC-01\nCreate Event" as UC1
+    usecase "UC-02\nGenerate Ticket" as UC2
+    usecase "UC-03\nView Ticket" as UC3
+    usecase "UC-04\nRedeem Ticket" as UC4
+    usecase "UC-05\nList Events" as UC5
+    usecase "Validate Capacity" as UC6
+    usecase "Validate Ticket Status" as UC7
+    usecase "Generate Ticket Code" as UC8
+    usecase "Validate Event Expiry" as UC9
+}
+
+Admin --> UC1
+Admin --> UC2
+Admin --> UC5
+Holder --> UC3
+Holder --> UC4
+Staff  --> UC4
+
+UC1 ..> UC6 : <<include>>
+UC2 ..> UC6 : <<include>>
+UC2 ..> UC8 : <<include>>
+UC2 ..> UC9 : <<include>>
+UC4 ..> UC7 : <<include>>
+UC4 ..> UC9 : <<include>>
+
+note right of UC2
+  System uses a
+  TicketCodeStrategy
+  to generate the
+  unique code
+end note
+
+note bottom of UC4
+  Ticket must be in
+  VALID state AND
+  event must not be
+  expired
+end note
+
+@enduml

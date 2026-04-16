@@ -1,0 +1,204 @@
+@startuml class_diagram
+title Smart E-Ticketing System — Class Diagram
+!theme plain
+
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+skinparam packageStyle rectangle
+skinparam linetype ortho
+
+' ============ DOMAIN LAYER ============
+package "domain" <<Rectangle>> {
+
+    enum TicketStatus {
+        VALID
+        USED
+    }
+
+    enum EventType {
+        CONCERT
+        CONFERENCE
+        SPORTS
+    }
+
+    abstract class Event {
+        # id: string
+        # name: string
+        # description: string
+        # venue: string
+        # eventDate: Date
+        # totalCapacity: number
+        # remainingCapacity: number
+        # createdAt: Date
+        --
+        + decrementCapacity(): void
+        + hasAvailableCapacity(): boolean
+        + isExpired(now?: Date): boolean
+        + {abstract} getType(): EventType
+    }
+
+    class ConcertEvent extends Event {
+        - artist: string
+        + getType(): EventType
+    }
+
+    class ConferenceEvent extends Event {
+        - speaker: string
+        + getType(): EventType
+    }
+
+    class SportsEvent extends Event {
+        - teams: string
+        + getType(): EventType
+    }
+
+    class Ticket {
+        - id: string
+        - eventId: string
+        - code: string
+        - status: TicketStatus
+        - createdAt: Date
+        - redeemedAt: Date
+        --
+        + markAsUsed(): void
+        + isValid(): boolean
+    }
+}
+
+' ============ REPOSITORY LAYER (Repository Pattern) ============
+package "repository" <<Rectangle>> {
+
+    interface IEventRepository <<interface>> {
+        + save(event: Event): Event
+        + findById(id: string): Event
+        + findAll(): Event[]
+        + update(event: Event): Event
+    }
+
+    interface ITicketRepository <<interface>> {
+        + save(ticket: Ticket): Ticket
+        + findById(id: string): Ticket
+        + findByEventId(eventId: string): Ticket[]
+        + update(ticket: Ticket): Ticket
+    }
+
+    class InMemoryEventRepository implements IEventRepository {
+        - store: Map<string, Event>
+    }
+
+    class InMemoryTicketRepository implements ITicketRepository {
+        - store: Map<string, Ticket>
+    }
+}
+
+' ============ FACTORY PATTERN ============
+package "factory" <<Rectangle>> {
+
+    class EventFactory {
+        + createEvent(dto: CreateEventDto): Event
+    }
+}
+
+' ============ STRATEGY PATTERN ============
+package "strategy" <<Rectangle>> {
+
+    interface ITicketCodeStrategy <<interface>> {
+        + generate(): string
+    }
+
+    class UuidCodeStrategy implements ITicketCodeStrategy
+    class ShortCodeStrategy implements ITicketCodeStrategy
+    class NumericCodeStrategy implements ITicketCodeStrategy
+}
+
+' ============ SERVICE LAYER ============
+package "service" <<Rectangle>> {
+
+    class EventService {
+        - eventRepository: IEventRepository
+        - eventFactory: EventFactory
+        --
+        + createEvent(dto: CreateEventDto): Event
+        + getAllEvents(): Event[]
+        + getEventById(id: string): Event
+    }
+
+    class TicketService {
+        - ticketRepository: ITicketRepository
+        - eventRepository: IEventRepository
+        - codeStrategy: ITicketCodeStrategy
+        --
+        + generateTicket(eventId: string): Ticket
+        + getTicketById(id: string): Ticket
+        + getTicketsForEvent(eventId: string): Ticket[]
+        + redeemTicket(id: string): Ticket
+    }
+}
+
+' ============ CONTROLLER LAYER ============
+package "controller" <<Rectangle>> {
+
+    class EventController {
+        - eventService: EventService
+        --
+        + create(dto: CreateEventDto): EventResponseDto
+        + findAll(): EventResponseDto[]
+        + findOne(id: string): EventResponseDto
+    }
+
+    class TicketController {
+        - ticketService: TicketService
+        --
+        + generate(eventId: string): TicketResponseDto
+        + findOne(id: string): TicketResponseDto
+        + listForEvent(eventId: string): TicketResponseDto[]
+        + redeem(id: string): TicketResponseDto
+    }
+}
+
+' ============ RELATIONSHIPS ============
+Event "1" o-- "*" Ticket : contains >
+
+EventService ..> IEventRepository : depends on (DIP)
+EventService ..> EventFactory : uses
+
+TicketService ..> ITicketRepository : depends on (DIP)
+TicketService ..> IEventRepository : depends on (DIP)
+TicketService ..> ITicketCodeStrategy : depends on (DIP)
+
+EventFactory ..> Event : creates >
+
+EventController ..> EventService
+TicketController ..> TicketService
+
+note top of IEventRepository
+  **Repository Pattern**
+  Abstracts data access.
+  Services depend only on
+  the interface, not the
+  in-memory implementation.
+end note
+
+note top of EventFactory
+  **Factory Pattern**
+  Encapsulates the creation
+  logic of polymorphic
+  Event subtypes.
+end note
+
+note top of ITicketCodeStrategy
+  **Strategy Pattern**
+  Encapsulates interchangeable
+  algorithms for generating
+  ticket codes. Selected via
+  dependency injection.
+end note
+
+note bottom of TicketService
+  All three services depend
+  on interfaces only,
+  satisfying the Dependency
+  Inversion Principle (DIP).
+end note
+
+@enduml

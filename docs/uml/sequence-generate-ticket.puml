@@ -1,0 +1,59 @@
+@startuml sequence_generate_ticket
+title Generate Ticket — Sequence Diagram
+
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 8
+skinparam sequenceParticipant underline
+
+actor Admin
+participant ":TicketController" as Ctrl
+participant ":TicketService" as Svc
+participant ":IEventRepository" as EventRepo
+participant ":ITicketCodeStrategy" as Strategy
+participant ":ITicketRepository" as TicketRepo
+participant ":Event" as Event
+participant ":Ticket" as Ticket
+
+Admin -> Ctrl ++ : POST /events/{id}/tickets
+Ctrl -> Svc ++ : generateTicket(eventId)
+
+Svc -> EventRepo ++ : findById(eventId)
+EventRepo --> Svc -- : event
+
+alt event not found
+    Svc --> Ctrl : throw NotFoundException
+    Ctrl --> Admin : 404 Not Found
+end
+
+Svc -> Event ++ : isExpired()
+Event --> Svc -- : true / false
+
+alt event expired
+    Svc --> Ctrl : throw ConflictException
+    Ctrl --> Admin : 409 Event has already ended
+end
+
+Svc -> Event ++ : hasAvailableCapacity()
+Event --> Svc -- : true / false
+
+alt capacity exhausted
+    Svc --> Ctrl : throw ConflictException
+    Ctrl --> Admin : 409 No tickets remaining
+end
+
+Svc -> Strategy ++ : generate()
+Strategy --> Svc -- : uniqueCode
+
+Svc -> Ticket ** : new Ticket(eventId, uniqueCode)
+Svc -> TicketRepo ++ : save(ticket)
+TicketRepo --> Svc -- : savedTicket
+
+Svc -> Event ++ : decrementCapacity()
+Svc -> EventRepo ++ : update(event)
+EventRepo --> Svc --
+Event --> Svc --
+
+Svc --> Ctrl -- : ticket
+Ctrl --> Admin -- : 201 Created { ticket }
+
+@enduml
