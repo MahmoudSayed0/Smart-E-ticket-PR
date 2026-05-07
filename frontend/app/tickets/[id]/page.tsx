@@ -99,7 +99,7 @@ export default function TicketPage({ params }: { params: Promise<{ id: string }>
             eventType={event?.type ?? ''}
             eventDate={event ? new Date(event.eventDate) : new Date()}
             status={status}
-            redeemedAt={ticket.redeemedAt}
+            redeemedAt={ticket.redeemedAt ? new Date(ticket.redeemedAt) : null}
             onRedeem={handleRedeem}
             redeeming={redeeming}
           />
