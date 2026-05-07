@@ -285,6 +285,23 @@
     </div>
     <h1>Smart <em>E-Ticketing</em> — what each of us has to know.</h1>
     <p>This document is your prep sheet. Open the deck side-by-side and read your card below before demo day. The Q&amp;A list at the bottom is what we expect Dr. Ihab Ramadan to ask — make sure your name's questions are second nature to you.</p>
+
+    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; margin-top:24px;">
+      <div style="background:var(--secondary-soft); border:2px solid var(--line-strong); border-radius:12px; padding:14px 16px;">
+        <div style="font-family:'Space Mono',monospace; font-size:11px; letter-spacing:0.16em; color:var(--secondary); font-weight:700; text-transform:uppercase;">Frontend · live</div>
+        <div style="font-family:'Space Mono',monospace; font-size:13px; color:var(--ink); margin-top:4px; word-break:break-all;">smart-e-ticket.vercel.app</div>
+      </div>
+      <div style="background:var(--accent-soft); border:2px solid var(--line-strong); border-radius:12px; padding:14px 16px;">
+        <div style="font-family:'Space Mono',monospace; font-size:11px; letter-spacing:0.16em; color:#a05a00; font-weight:700; text-transform:uppercase;">Backend · Docker · Railway</div>
+        <div style="font-family:'Space Mono',monospace; font-size:13px; color:var(--ink); margin-top:4px; word-break:break-all;">smart-eticketing-backend-production-0222.up.railway.app/api-docs</div>
+      </div>
+      <div style="background:var(--primary-soft); border:2px solid var(--line-strong); border-radius:12px; padding:14px 16px;">
+        <div style="font-family:'Space Mono',monospace; font-size:11px; letter-spacing:0.16em; color:var(--primary); font-weight:700; text-transform:uppercase;">Repo · CI ✓</div>
+        <div style="font-family:'Space Mono',monospace; font-size:13px; color:var(--ink); margin-top:4px; word-break:break-all;">github.com/MahmoudSayed0/Smart-E-ticket-PR</div>
+      </div>
+    </div>
+
+    <div style="margin-top:14px; font-size:13px; color:var(--ink-3); font-style:italic;">⚠️ Wake the Railway backend ~1 minute before the demo by hitting the <code>/api-docs</code> URL — free-tier instances sleep after 15 min of idle.</div>
   </header>
 
   <!-- TEAM ROLES -->
@@ -440,6 +457,24 @@
         <div class="qa-row"><span class="qa-num">Q12</span><span class="who">Amr · End-to-end flow</span></div>
         <div class="qa-q">Walk through a single use case end-to-end.</div>
         <div class="qa-a">UC-3 Generate Ticket. Admin POSTs to <code>/events/:id/tickets</code>. Controller validates DTO. TicketService calls EventFactory + ITicketCodeStrategy. Repository stores. 201 returned with the ticket URL. Three patterns visible in one HTTP call.</div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-row"><span class="qa-num">Q13</span><span class="who">Mahmoud · CI/CD bonus</span></div>
+        <div class="qa-q">How do you build, test and deploy?</div>
+        <div class="qa-a">Every push triggers <strong>GitHub Actions</strong>: parallel backend + frontend jobs (install · lint · test · build, coverage uploaded). On merge to <code>main</code>, the frontend auto-deploys to <strong>Vercel</strong> and the backend builds via <code>backend/Dockerfile</code> and ships to <strong>Railway</strong>. Every commit produces a green ✓ on the README and a fresh live URL.</div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-row"><span class="qa-num">Q14</span><span class="who">Ali · Docker bonus</span></div>
+        <div class="qa-q">Why a Dockerfile?</div>
+        <div class="qa-a">Reproducibility. The backend ships with <code>backend/Dockerfile</code> (Node 22 base, build tools for <code>better-sqlite3</code>'s native binding). Anyone can run <code>docker build -t eticketing ./backend &amp;&amp; docker run -p 4000:4000 eticketing</code> and get a byte-identical environment to production. Decouples the app from any specific cloud — runs on Railway today, Fly.io / GCP Cloud Run / AWS ECS / Kubernetes tomorrow with zero changes.</div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-row"><span class="qa-num">Q15</span><span class="who">Esraa · Live persistence</span></div>
+        <div class="qa-q">The deployed backend has a real database — how does that fit the Repository pattern?</div>
+        <div class="qa-a">Production binds <code>SqliteEventRepository</code> + <code>SqliteTicketRepository</code> via <code>DB_DRIVER=sqlite</code> in the Dockerfile env. Local tests still use the in-memory binding. Same interfaces, same services, same controllers — only the binding line in <code>app.module.ts</code> changes. That's the Repository pattern actually delivering on its promise, live, on demo day.</div>
       </div>
 
     </div>
