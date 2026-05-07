@@ -18,3 +18,10 @@ npm-debug.log*
 # Env
 .env
 .env.local
+
+# Local SQLite database (created at runtime when DB_DRIVER=sqlite)
+data/
+*.db
+*.db-journal
+*.db-shm
+*.db-wal

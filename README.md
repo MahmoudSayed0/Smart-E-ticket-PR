@@ -2,7 +2,33 @@
 
 > A full-stack **Software Engineering course project** demonstrating Agile/Scrum, Clean Code, SOLID principles, and three GoF design patterns: **Repository**, **Factory**, and **Strategy**.
 
-![Stack](https://img.shields.io/badge/backend-NestJS-red) ![Stack](https://img.shields.io/badge/frontend-Next.js-black) ![Stack](https://img.shields.io/badge/language-TypeScript-blue) ![Tests](https://img.shields.io/badge/tests-46_passing-green) ![Coverage](https://img.shields.io/badge/coverage-83%25-brightgreen)
+[![CI](https://github.com/MahmoudSayed0/Smart-E-ticket-PR/actions/workflows/ci.yml/badge.svg)](https://github.com/MahmoudSayed0/Smart-E-ticket-PR/actions/workflows/ci.yml) ![Stack](https://img.shields.io/badge/backend-NestJS-red) ![Stack](https://img.shields.io/badge/frontend-Next.js-black) ![Stack](https://img.shields.io/badge/language-TypeScript-blue) ![Tests](https://img.shields.io/badge/tests-46_passing-green) ![Coverage](https://img.shields.io/badge/coverage-83%25-brightgreen) ![Storage](https://img.shields.io/badge/storage-in--memory_or_SQLite-blueviolet)
+
+## 🚢 CI/CD
+
+| Pipeline | Trigger | What it runs |
+|---|---|---|
+| **CI** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) | every push + every PR | install → lint → unit tests with coverage → build (backend + frontend in parallel) |
+| **CD — frontend** | push to `main` | auto-deploys to **Vercel**. Set Vercel project Root Directory to `frontend/`. Add `NEXT_PUBLIC_API_BASE` env var pointing to the deployed backend URL. |
+| **CD — backend** | push to `main` | auto-deploys to **Render** via [`render.yaml`](render.yaml). Provisions a free Node web service with a 1 GB persistent disk mounted at `/var/data`. SQLite stays alive across deploys. |
+
+### Pluggable storage — the Repository pattern in action
+
+Storage is decided at boot from the `DB_DRIVER` environment variable:
+
+```ts
+// backend/src/app.module.ts
+const useSqlite = process.env.DB_DRIVER === 'sqlite';
+{ provide: EVENT_REPOSITORY,  useClass: useSqlite ? SqliteEventRepository  : InMemoryEventRepository  },
+{ provide: TICKET_REPOSITORY, useClass: useSqlite ? SqliteTicketRepository : InMemoryTicketRepository },
+```
+
+| Environment | `DB_DRIVER` | Backing store |
+|---|---|---|
+| Local dev / `npm test` | unset | In-memory `Map<>` (fast, no setup) |
+| Render production | `sqlite` | `better-sqlite3` writing to `/var/data/eticketing.db` (persistent across deploys) |
+
+`grep -r 'Sqlite\|InMemory' backend/src/service/` returns **zero matches** — services depend only on the interfaces. That is the entire point of the pattern, and you can witness it live by hitting the deployed URL.
 
 ## 📋 Overview
 

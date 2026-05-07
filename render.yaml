@@ -1,0 +1,26 @@
+# Render blueprint — backend NestJS service with persistent SQLite disk.
+# Deploy: push to main, Render reads this file, provisions the service + disk,
+# and runs the build + start commands. Free tier supports up to 1 GB persistent disk.
+services:
+  - type: web
+    name: smart-eticketing-backend
+    runtime: node
+    rootDir: backend
+    plan: free
+    region: frankfurt
+    buildCommand: npm ci && npm run build
+    startCommand: node dist/main
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_DRIVER
+        value: sqlite
+      - key: SQLITE_PATH
+        value: /var/data/eticketing.db
+      - key: PORT
+        value: 4000
+    disk:
+      name: eticketing-data
+      mountPath: /var/data
+      sizeGB: 1
+    healthCheckPath: /api-docs

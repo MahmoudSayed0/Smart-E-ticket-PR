@@ -8,6 +8,7 @@ coverage/
 *.log
 *.html
 !app/**/*.html
+!docs/presentation/*.html
 .vscode/
 .idea/
 .claude/

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Smart E-Ticketing — Team Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0a;
+    --ink-2: #2a2a2a;
+    --ink-3: #5a5a5a;
+    --paper: #F8F5EB;
+    --paper-2: #efe9d8;
+    --card: #FFFFFF;
+    --primary: #5A3BDE;
+    --primary-soft: #ece6ff;
+    --secondary: #2DBAAC;
+    --secondary-soft: #d6f1ed;
+    --accent: #F2A640;
+    --accent-soft: #fbe7c8;
+    --line: rgba(0, 0, 0, 0.18);
+    --line-strong: #0a0a0a;
+    --shadow: 6px 6px 0 0 #0a0a0a;
+    --shadow-sm: 4px 4px 0 0 #0a0a0a;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "DM Sans", system-ui, sans-serif;
+    line-height: 1.5;
+    padding: 64px 48px;
+  }
+
+  .wrap { max-width: 1280px; margin: 0 auto; }
+
+  .mono { font-family: "Space Mono", monospace; font-feature-settings: "tnum" 1; }
+  code { font-family: "Space Mono", monospace; background: var(--paper-2); padding: 2px 8px; border: 1.5px solid var(--line-strong); border-radius: 6px; font-size: 0.9em; }
+
+  /* Header */
+  .head {
+    border-bottom: 2px solid var(--line-strong);
+    padding-bottom: 28px;
+    margin-bottom: 36px;
+  }
+  .head .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 22px;
+  }
+  .head .crumb {
+    font-family: "Space Mono", monospace;
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    color: var(--primary);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .head .meta {
+    font-family: "Space Mono", monospace;
+    font-size: 13px;
+    color: var(--ink-3);
+    letter-spacing: 0.08em;
+  }
+  .head h1 {
+    font-size: 64px;
+    line-height: 1.02;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px 0;
+  }
+  .head h1 em {
+    font-family: "Fraunces", serif;
+    font-weight: 400;
+    color: var(--primary);
+  }
+  .head p {
+    font-size: 18px;
+    color: var(--ink-2);
+    max-width: 800px;
+    margin: 0;
+  }
+
+  /* Section */
+  section.block { margin-bottom: 56px; }
+  section.block h2 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.012em;
+    margin: 0 0 6px 0;
+  }
+  section.block .sub {
+    font-family: "Space Mono", monospace;
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    color: var(--primary);
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 22px;
+  }
+
+  /* Cards */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+  }
+  @media (min-width: 1100px) {
+    .card-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  .study-card {
+    background: var(--card);
+    border: 2px solid var(--line-strong);
+    border-radius: 16px;
+    padding: 24px 26px;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+  }
+  .study-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 8px;
+    background: var(--primary);
+    border-bottom: 1.5px solid var(--line-strong);
+  }
+  .study-card.purple::before { background: var(--primary); }
+  .study-card.teal::before   { background: var(--secondary); }
+  .study-card.orange::before { background: var(--accent); }
+  .study-card.soft::before   { background: var(--primary-soft); }
+  .study-card.purple { background: var(--primary); color: #FFFFFF; }
+  .study-card.purple .label { color: var(--accent); }
+  .study-card.purple .slides { color: var(--paper); }
+  .study-card.purple .body { color: var(--paper); }
+  .study-card.purple strong { color: var(--accent); }
+  .study-card.purple code { color: var(--ink); background: var(--paper-2); }
+
+  .study-card .label {
+    font-family: "Space Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    color: var(--primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 12px;
+  }
+  .study-card .name {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.012em;
+    margin: 4px 0 6px 0;
+  }
+  .study-card.purple .name { color: var(--paper); }
+  .study-card .slides {
+    font-family: "Space Mono", monospace;
+    font-size: 13px;
+    color: var(--ink-3);
+    margin-bottom: 14px;
+  }
+  .study-card .body {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+  .study-card .body strong { color: var(--primary); }
+  .study-card .body p { margin: 0 0 10px 0; }
+  .study-card .body p:last-child { margin-bottom: 0; }
+
+  /* Q&A list */
+  .qa-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .qa-item {
+    background: var(--card);
+    border: 2px solid var(--line-strong);
+    border-radius: 12px;
+    padding: 18px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .qa-item::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: var(--accent);
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .qa-item .qa-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .qa-item .qa-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; height: 22px;
+    background: var(--ink);
+    color: var(--accent);
+    border: 1.5px solid var(--line-strong);
+    border-radius: 999px;
+    font-family: "Space Mono", monospace;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .qa-item .who {
+    font-family: "Space Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--primary);
+    font-weight: 600;
+  }
+  .qa-item .qa-q {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 8px 0 0 0;
+    line-height: 1.3;
+  }
+  .qa-item .qa-a {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink-2);
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1.5px dashed var(--line-strong);
+  }
+
+  /* Tip box */
+  .tip {
+    background: var(--accent);
+    border: 2px solid var(--line-strong);
+    border-radius: 14px;
+    padding: 20px 24px;
+    box-shadow: var(--shadow-sm);
+    margin-top: 24px;
+  }
+  .tip .tag {
+    font-family: "Space Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    font-weight: 700;
+    color: var(--ink);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .tip h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+  }
+  .tip ul { margin: 8px 0 0 0; padding-left: 22px; }
+  .tip li { font-size: 16px; margin: 4px 0; }
+
+  /* Print */
+  @media print {
+    body { padding: 24px; }
+    .study-card, .qa-item { break-inside: avoid; box-shadow: none; }
+    .tip { box-shadow: none; }
+    .head { page-break-after: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="head">
+    <div class="top">
+      <div class="crumb">SE Project · Team 6 · Study Guide</div>
+      <div class="meta">Internal — for team prep · not for the doctor</div>
+    </div>
+    <h1>Smart <em>E-Ticketing</em> — what each of us has to know.</h1>
+    <p>This document is your prep sheet. Open the deck side-by-side and read your card below before demo day. The Q&amp;A list at the bottom is what we expect Dr. Ihab Ramadan to ask — make sure your name's questions are second nature to you.</p>
+  </header>
+
+  <!-- TEAM ROLES -->
+  <section class="block">
+    <div class="sub">01 · Team roles</div>
+    <h2>Who owns what</h2>
+    <div class="card-grid" style="margin-top:18px;">
+
+      <div class="study-card purple">
+        <div class="label">PO &amp; Scrum Master</div>
+        <div class="name">Mahmoud</div>
+        <div class="slides">Slides: 5 – 7 (Scope, SRS) · 26 (Agile) · 28 (Lessons)</div>
+        <div class="body">
+          <p><strong>Owns:</strong> SRS, scope, backlog grooming, sprint rituals, Jira-style Notion workspace, Definition of Done.</p>
+          <p><strong>Memorize:</strong> the 9 user stories with acceptance criteria; the in-scope vs out-of-scope split; the rubric weights (20/15/20/15/10/10/10); Sprint 1–3 Done, Sprint 4 In Progress; 5 Epics + 9 Stories + 36 Tasks; the Enhancement Backlog headlines.</p>
+          <p><strong>Likely questions:</strong> Q1 (real backend?) · Q9 (how Agile in a student team?) · Q11 (what would you do differently?).</p>
+        </div>
+      </div>
+
+      <div class="study-card orange">
+        <div class="label">Software Engineer</div>
+        <div class="name">Mohammed</div>
+        <div class="slides">Slides: 9 (Use Case) · 10 (Class) · 14 (Layered Architecture)</div>
+        <div class="body">
+          <p><strong>Owns (with Esraa):</strong> use case &amp; class diagrams, layered architecture, design rationale.</p>
+          <p><strong>Memorize:</strong> three actors (Admin, Ticket Holder, Gate Staff); include/extend relationships; class-diagram pattern annotations (Repository / Factory / Strategy); the 5 layers (Presentation → Controller → Service → Repository → Domain); why we picked NestJS + Next.js + Jest.</p>
+          <p><strong>Likely questions:</strong> "Walk the class diagram" · "Why this architecture?"</p>
+        </div>
+      </div>
+
+      <div class="study-card orange">
+        <div class="label">Software Engineer</div>
+        <div class="name">Esraa</div>
+        <div class="slides">Slides: 11 (Sequence) · 12 (Activity / Lifecycle) · 16 (Schema) · 17 (DB Adapter)</div>
+        <div class="body">
+          <p><strong>Owns (with Mohammed):</strong> sequence &amp; activity diagrams, in-memory schema, the database-swap story.</p>
+          <p><strong>Memorize:</strong> the Generate Ticket sequence (Controller → Service → Factory → Strategy → Repository); ticket lifecycle states (VALID, USED, EXPIRED); the events &amp; tickets schema; the 6 drop-in adapters (PostgreSQL, MongoDB, DynamoDB, Redis, Firebase, in-memory).</p>
+          <p><strong>Likely questions:</strong> "Walk the sequence" · "How would you swap to Postgres?"</p>
+        </div>
+      </div>
+
+      <div class="study-card purple">
+        <div class="label">Backend Developer</div>
+        <div class="name">Ali</div>
+        <div class="slides">Slides: 15 (Repository) · 18 (Factory) · 19 (Strategy)</div>
+        <div class="body">
+          <p><strong>Owns:</strong> the three GoF patterns in code — Repository, Factory, Strategy. NestJS DI module wiring.</p>
+          <p><strong>Memorize:</strong> the <code>@Inject</code> token pattern; why TypeScript interfaces erase at runtime; <code>grep -r 'InMemory' src/service/ → 0</code>; the three strategy classes (Uuid / Short / Numeric); the EventFactory switch; the one-line DB swap in <code>app.module.ts</code>.</p>
+          <p><strong>Likely questions:</strong> Q2 (Repository) · Q3 (three strategies?) · Q7 (why NestJS?) · Q8 (where's Observer?) · Q10 (TS interfaces at runtime).</p>
+        </div>
+      </div>
+
+      <div class="study-card teal">
+        <div class="label">Frontend Developer</div>
+        <div class="name">Amr</div>
+        <div class="slides">Slides: 20 (SOLID) · 22 (Live Demo)</div>
+        <div class="body">
+          <p><strong>Owns:</strong> the SOLID compliance audit and the live click-through demo. Next.js 15 frontend, <code>/admin</code>, <code>/tickets/[id]</code>, AnimatedTicket, soft-pop theme.</p>
+          <p><strong>Memorize:</strong> SOLID with one concrete example per letter (S/O/L/I/D); the 6-step demo flow (create event → generate → view → hold-to-redeem → 409 on retry → Swagger); the soft-pop theme tokens; the QR + hold-to-redeem interaction.</p>
+          <p><strong>Likely questions:</strong> Q4 (prove DIP) · Q5 (LSP example) · Q12 (end-to-end use case).</p>
+        </div>
+      </div>
+
+      <div class="study-card soft">
+        <div class="label">QA / Testing</div>
+        <div class="name">Seif</div>
+        <div class="slides">Slide: 24 (Testing)</div>
+        <div class="body">
+          <p><strong>Owns:</strong> Jest unit tests, coverage report, test cases document, mocking discipline.</p>
+          <p><strong>Memorize:</strong> 46 unit tests · 100% on repositories · ≥80% on services · the streaming Jest reporter · the SSE-driven live test viewer · how mocking <em>proves</em> DIP is wired correctly.</p>
+          <p><strong>Likely questions:</strong> Q6 (test coverage).</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ANTICIPATED Q&A -->
+  <section class="block">
+    <div class="sub">02 · Anticipated questions</div>
+    <h2>What Dr. Ihab Ramadan is likely to ask</h2>
+    <p style="font-size:16px; color:var(--ink-2); margin: 8px 0 24px 0; max-width:900px;">Each card below carries the question, the canonical answer, and the team member who owns it. Practice the answers out loud — the doctor reads your confidence as much as your content.</p>
+
+    <div class="qa-list">
+
+      <div class="qa-item">
+        <div class="qa-row"><span class="qa-num">Q1</span><span class="who">Mahmoud · Most expected</span></div>
+        <div class="qa-q">Why didn't you use a real backend or a real database?</div>
+        <div class="qa-a">The assignment asked us to mock storage in-memory <em>behind the Repository pattern</em>. The architecture is built so that swapping to PostgreSQL, MongoDB, or any other store is a one-line change in <code>app.module.ts</code>. We invested time in patterns and SOLID rather than DB setup. The PostgreSQL adapter is the first item in our Enhancement Backlog.</div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-row"><span class="qa-num">Q2</span><span class="who">Ali · Repository</span></div>
+        <div class="qa-q">What is the Repository pattern and why did you use it?</div>
+        <div class="qa-a">An abstraction over data persistence. It hides storage details behind an interface so business logic doesn't depend on RAM, SQL, or a cloud service. Required by the assignment, satisfies DIP, and makes future migrations cheap.</div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-row"><span class="qa-num">Q3</span><span class="who">Ali · Strategy</span></div>
+        <div class="qa-q">Why three Strategy implementations?</div>
+        <div class="qa-a">To prove the pattern, not because the system needs three. UUID for global uniqueness, Short for human-friendliness, Numeric for fast manual entry. Adding a fourth (e.g. ExpiringCode) costs zero edits to TicketService.</div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-row"><span class="qa-num">Q4</span><span class="who">Amr · SOLID — DIP</span></div>
+        <div class="qa-q">How do you prove Dependency Inversion?</div>
+        <div class="qa-a">Two ways. (1) Run <code>grep -r 'InMemory' src/service/</code> — returns nothing. (2) Every service test injects a mock repository through Jest — only possible if the service depends on the interface, not a concrete class.</div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-row"><span class="qa-num">Q5</span><span class="who">Amr · SOLID — LSP</span></div>
+        <div class="qa-q">Show LSP in your code.</div>
+        <div class="qa-a">Open the class diagram. <code>ConcertEvent</code>, <code>ConferenceEvent</code>, <code>SportsEvent</code> all extend <code>Event</code>. The repository stores them as Event; the service operates on them as Event. Each respects the constructor and <code>decrementCapacity</code> contract.</div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-row"><span class="qa-num">Q6</span><span class="who">Seif · Testing</span></div>
+        <div class="qa-q">What is your test coverage?</div>
+        <div class="qa-a">46 unit tests. Repository layer 100%, service layer ≥ 80%. Every service test mocks its repository — the act of mocking proves DIP is wired correctly.</div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-row"><span class="qa-num">Q7</span><span class="who">Ali · Tech Stack</span></div>
+        <div class="qa-q">Why NestJS instead of Express or Spring?</div>
+        <div class="qa-a">NestJS gives us first-class DI tokens, modular architecture, and Swagger generation out of the box. It maps the patterns we needed (Repository, Factory, Strategy) directly onto the framework. Spring would also work — NestJS is the JS-native equivalent.</div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-row"><span class="qa-num">Q8</span><span class="who">Ali · Patterns scope</span></div>
+        <div class="qa-q">Where is the Observer pattern?</div>
+        <div class="qa-a">De-scoped intentionally. The assignment requires 2–3 patterns; we delivered three deeply rather than four shallowly. Observer is the first <em>architectural</em> item in the Enhancement Backlog — natural fit for ticket lifecycle notifications.</div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-row"><span class="qa-num">Q9</span><span class="who">Mahmoud · Agile</span></div>
+        <div class="qa-q">How did you manage Agile in a student team?</div>
+        <div class="qa-a">Scrum with four 1-week sprints. Every sprint had a plan, daily standup, review, and retrospective documented in Notion. Every PR referenced a SET-T issue key. The Notion workspace doubles as a Jira-style backlog with Epics, Stories, Tasks, and saved views.</div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-row"><span class="qa-num">Q10</span><span class="who">Ali · TypeScript / DI</span></div>
+        <div class="qa-q">Why interfaces if TypeScript erases them at runtime?</div>
+        <div class="qa-a">NestJS solves this with provider tokens — we bind the symbol <code>'TICKET_REPOSITORY'</code> to a concrete class in the module. The injection works at runtime even though the interface is compile-time only.</div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-row"><span class="qa-num">Q11</span><span class="who">Mahmoud · Retrospective</span></div>
+        <div class="qa-q">What would you do differently?</div>
+        <div class="qa-a">Two-hour architecture kickoff on Day 1; pair-programming rotation from Day 1; reserve the last day exclusively for demo polish. We logged each in our final retrospective.</div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-row"><span class="qa-num">Q12</span><span class="who">Amr · End-to-end flow</span></div>
+        <div class="qa-q">Walk through a single use case end-to-end.</div>
+        <div class="qa-a">UC-3 Generate Ticket. Admin POSTs to <code>/events/:id/tickets</code>. Controller validates DTO. TicketService calls EventFactory + ITicketCodeStrategy. Repository stores. 201 returned with the ticket URL. Three patterns visible in one HTTP call.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TIPS -->
+  <section class="block">
+    <div class="sub">03 · Demo-day tips</div>
+    <h2>Don't get caught off-guard</h2>
+    <div class="tip">
+      <div class="tag">Before you walk in</div>
+      <h3>Run the deck and the live system once, end-to-end, with a stopwatch.</h3>
+      <ul>
+        <li>Pre-seed three events on <code>/admin</code> so the dashboard isn't empty.</li>
+        <li>Pre-open four browser tabs: <code>/admin</code> · <code>/tickets/[a-valid-id]</code> · <code>/api-docs</code> · class diagram PNG.</li>
+        <li>Have the recorded demo MP4 ready in case localhost misbehaves.</li>
+        <li>Don't read from slides — slides are the backdrop, you are the speaker.</li>
+        <li>If you don't know an answer, say "great question — let me defer to <em>[teammate]</em>" and pass the mic. Looks confident, isn't fake.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer style="border-top:2px solid var(--line-strong); padding-top:24px; margin-top:48px; display:flex; justify-content:space-between; align-items:center; font-size:13px;">
+    <div class="mono" style="color:var(--ink-3); letter-spacing:0.1em;">SMART E-TICKETING · TEAM STUDY GUIDE · 2026</div>
+    <div class="mono" style="color:var(--primary); letter-spacing:0.1em; font-weight:600;">SUPERVISED BY · DR. IHAB RAMADAN</div>
+  </footer>
+
+</div>
+
+</body>
+</html>
