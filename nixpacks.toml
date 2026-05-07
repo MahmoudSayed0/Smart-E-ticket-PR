@@ -1,0 +1,16 @@
+# Tells Railway/Nixpacks: "this monorepo deploys ONLY the backend".
+# Without this, Railway can scan and pick up the Next.js frontend by mistake.
+
+providers = ['node']
+
+[phases.setup]
+nixPkgs = ['nodejs_20', 'python3', 'gcc']
+
+[phases.install]
+cmds = ['cd backend && npm ci']
+
+[phases.build]
+cmds = ['cd backend && npm run build']
+
+[start]
+cmd = 'cd backend && node dist/main'
