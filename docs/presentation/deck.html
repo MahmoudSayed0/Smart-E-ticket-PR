@@ -1541,60 +1541,62 @@
 
     <div class="slide-grid" style="grid-template-columns: 1.4fr 1fr; gap:28px;">
 
-      <div class="card-flat" style="padding:22px;">
-        <!-- Pipeline visualization -->
-        <div class="mono small" style="color:var(--primary); letter-spacing:0.14em; font-weight:700; margin-bottom:14px;">PIPELINE — .github/workflows/ci.yml</div>
-        <svg viewBox="0 0 900 360" style="width:100%; height:auto;">
-          <!-- arrow defs -->
+      <div class="card-flat" style="padding:18px; display:flex; flex-direction:column; align-items:center;">
+        <div class="mono small" style="color:var(--primary); letter-spacing:0.14em; font-weight:700; margin-bottom:10px; align-self:flex-start;">PIPELINE — .github/workflows/ci.yml</div>
+        <svg viewBox="0 0 540 760" preserveAspectRatio="xMidYMid meet" style="width:auto; max-width:100%; height:100%; max-height:100%;">
           <defs>
             <marker id="arrCi" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
               <path d="M 0 0 L 9 5 L 0 10 z" fill="#0a0a0a"/>
             </marker>
           </defs>
-          <!-- Push trigger -->
-          <rect x="20" y="40" width="150" height="64" rx="12" fill="#5A3BDE" stroke="#0a0a0a" stroke-width="3"/>
-          <text x="95" y="68" font-family="Space Mono" font-size="13" fill="#F2A640" font-weight="700" text-anchor="middle" letter-spacing="2">TRIGGER</text>
-          <text x="95" y="90" font-family="DM Sans" font-size="18" fill="#FFFFFF" font-weight="700" text-anchor="middle">git push</text>
 
-          <line x1="170" y1="72" x2="240" y2="72" stroke="#0a0a0a" stroke-width="2.5" marker-end="url(#arrCi)"/>
+          <!-- TRIGGER -->
+          <rect x="190" y="20" width="160" height="64" rx="12" fill="#5A3BDE" stroke="#0a0a0a" stroke-width="3"/>
+          <text x="270" y="46" font-family="Space Mono" font-size="13" fill="#F2A640" font-weight="700" text-anchor="middle" letter-spacing="2">TRIGGER</text>
+          <text x="270" y="70" font-family="DM Sans" font-size="18" fill="#FFFFFF" font-weight="700" text-anchor="middle">git push</text>
+
+          <line x1="270" y1="84" x2="270" y2="124" stroke="#0a0a0a" stroke-width="2.5" marker-end="url(#arrCi)"/>
 
           <!-- CI -->
-          <rect x="240" y="20" width="380" height="100" rx="12" fill="#FFFFFF" stroke="#0a0a0a" stroke-width="3"/>
-          <text x="430" y="44" font-family="Space Mono" font-size="13" fill="#5A3BDE" font-weight="700" text-anchor="middle" letter-spacing="2">CI · GITHUB ACTIONS</text>
-          <text x="430" y="74" font-family="DM Sans" font-size="18" fill="#0a0a0a" font-weight="700" text-anchor="middle">install · lint · test · build</text>
-          <rect x="270" y="86" width="150" height="22" rx="11" fill="#2DBAAC" stroke="#0a0a0a" stroke-width="2"/>
-          <text x="345" y="102" font-family="Space Mono" font-size="11" fill="#0a0a0a" font-weight="700" text-anchor="middle">backend ✓</text>
-          <rect x="440" y="86" width="150" height="22" rx="11" fill="#2DBAAC" stroke="#0a0a0a" stroke-width="2"/>
-          <text x="515" y="102" font-family="Space Mono" font-size="11" fill="#0a0a0a" font-weight="700" text-anchor="middle">frontend ✓</text>
+          <rect x="80" y="134" width="380" height="120" rx="12" fill="#FFFFFF" stroke="#0a0a0a" stroke-width="3"/>
+          <text x="270" y="162" font-family="Space Mono" font-size="13" fill="#5A3BDE" font-weight="700" text-anchor="middle" letter-spacing="2">CI · GITHUB ACTIONS</text>
+          <text x="270" y="194" font-family="DM Sans" font-size="20" fill="#0a0a0a" font-weight="700" text-anchor="middle">install · lint · test · build</text>
+          <rect x="105" y="212" width="150" height="26" rx="13" fill="#2DBAAC" stroke="#0a0a0a" stroke-width="2"/>
+          <text x="180" y="230" font-family="Space Mono" font-size="11" fill="#0a0a0a" font-weight="700" text-anchor="middle">backend ✓</text>
+          <rect x="285" y="212" width="150" height="26" rx="13" fill="#2DBAAC" stroke="#0a0a0a" stroke-width="2"/>
+          <text x="360" y="230" font-family="Space Mono" font-size="11" fill="#0a0a0a" font-weight="700" text-anchor="middle">frontend ✓</text>
 
-          <line x1="620" y1="72" x2="690" y2="72" stroke="#0a0a0a" stroke-width="2.5" marker-end="url(#arrCi)"/>
+          <line x1="270" y1="254" x2="270" y2="294" stroke="#0a0a0a" stroke-width="2.5" marker-end="url(#arrCi)"/>
 
-          <!-- Merge -->
-          <rect x="690" y="40" width="180" height="64" rx="12" fill="#F2A640" stroke="#0a0a0a" stroke-width="3"/>
-          <text x="780" y="68" font-family="Space Mono" font-size="13" fill="#0a0a0a" font-weight="700" text-anchor="middle" letter-spacing="2">MERGE → MAIN</text>
-          <text x="780" y="90" font-family="DM Sans" font-size="16" fill="#0a0a0a" font-weight="700" text-anchor="middle">protected branch</text>
+          <!-- MERGE -->
+          <rect x="160" y="304" width="220" height="64" rx="12" fill="#F2A640" stroke="#0a0a0a" stroke-width="3"/>
+          <text x="270" y="330" font-family="Space Mono" font-size="13" fill="#0a0a0a" font-weight="700" text-anchor="middle" letter-spacing="2">MERGE → MAIN</text>
+          <text x="270" y="354" font-family="DM Sans" font-size="16" fill="#0a0a0a" font-weight="700" text-anchor="middle">protected branch</text>
 
-          <!-- Down arrow -->
-          <line x1="780" y1="104" x2="780" y2="170" stroke="#0a0a0a" stroke-width="2.5" marker-end="url(#arrCi)"/>
+          <!-- Split arrows down -->
+          <line x1="270" y1="368" x2="270" y2="406" stroke="#0a0a0a" stroke-width="2.5"/>
+          <line x1="140" y1="406" x2="400" y2="406" stroke="#0a0a0a" stroke-width="2.5"/>
+          <line x1="140" y1="406" x2="140" y2="446" stroke="#0a0a0a" stroke-width="2.5" marker-end="url(#arrCi)"/>
+          <line x1="400" y1="406" x2="400" y2="446" stroke="#0a0a0a" stroke-width="2.5" marker-end="url(#arrCi)"/>
 
-          <!-- CD branches -->
-          <rect x="600" y="200" width="170" height="80" rx="12" fill="#FFFFFF" stroke="#0a0a0a" stroke-width="3"/>
-          <text x="685" y="228" font-family="Space Mono" font-size="12" fill="#5A3BDE" font-weight="700" text-anchor="middle" letter-spacing="2">CD · VERCEL</text>
-          <text x="685" y="252" font-family="DM Sans" font-size="16" fill="#0a0a0a" font-weight="700" text-anchor="middle">Frontend</text>
-          <text x="685" y="270" font-family="Space Mono" font-size="12" fill="#5a5a5a" text-anchor="middle">Next.js · auto-deploy</text>
+          <!-- CD VERCEL (left) -->
+          <rect x="40" y="456" width="200" height="100" rx="12" fill="#FFFFFF" stroke="#0a0a0a" stroke-width="3"/>
+          <text x="140" y="482" font-family="Space Mono" font-size="12" fill="#5A3BDE" font-weight="700" text-anchor="middle" letter-spacing="2">CD · VERCEL</text>
+          <text x="140" y="510" font-family="DM Sans" font-size="18" fill="#0a0a0a" font-weight="700" text-anchor="middle">Frontend</text>
+          <text x="140" y="534" font-family="Space Mono" font-size="11" fill="#5a5a5a" text-anchor="middle">Next.js · auto-deploy</text>
 
-          <rect x="790" y="200" width="170" height="80" rx="12" fill="#FFFFFF" stroke="#0a0a0a" stroke-width="3"/>
-          <text x="875" y="228" font-family="Space Mono" font-size="12" fill="#5A3BDE" font-weight="700" text-anchor="middle" letter-spacing="2">CD · RAILWAY</text>
-          <text x="875" y="252" font-family="DM Sans" font-size="16" fill="#0a0a0a" font-weight="700" text-anchor="middle">Backend</text>
-          <text x="875" y="270" font-family="Space Mono" font-size="12" fill="#5a5a5a" text-anchor="middle">Docker · NestJS · SQLite</text>
+          <!-- CD RAILWAY (right) -->
+          <rect x="300" y="456" width="200" height="100" rx="12" fill="#FFFFFF" stroke="#0a0a0a" stroke-width="3"/>
+          <text x="400" y="482" font-family="Space Mono" font-size="12" fill="#5A3BDE" font-weight="700" text-anchor="middle" letter-spacing="2">CD · RAILWAY</text>
+          <text x="400" y="510" font-family="DM Sans" font-size="18" fill="#0a0a0a" font-weight="700" text-anchor="middle">Backend</text>
+          <text x="400" y="528" font-family="Space Mono" font-size="11" fill="#5a5a5a" text-anchor="middle">Docker · NestJS</text>
+          <text x="400" y="544" font-family="Space Mono" font-size="11" fill="#5a5a5a" text-anchor="middle">SQLite repository</text>
 
-          <line x1="685" y1="200" x2="755" y2="115" stroke="#0a0a0a" stroke-width="2" stroke-dasharray="6,4"/>
-          <line x1="875" y1="200" x2="805" y2="115" stroke="#0a0a0a" stroke-width="2" stroke-dasharray="6,4"/>
-
-          <!-- Outcome -->
-          <rect x="20" y="220" width="540" height="60" rx="12" fill="#d6f1ed" stroke="#0a0a0a" stroke-width="3"/>
-          <text x="40" y="244" font-family="Space Mono" font-size="11" fill="#0a0a0a" font-weight="700" letter-spacing="2">OUTCOME</text>
-          <text x="40" y="270" font-family="DM Sans" font-size="17" fill="#0a0a0a" font-weight="700">Green ✓ on every PR · live URL after every merge to main</text>
+          <!-- OUTCOME -->
+          <rect x="40" y="616" width="460" height="100" rx="12" fill="#d6f1ed" stroke="#0a0a0a" stroke-width="3"/>
+          <text x="60" y="644" font-family="Space Mono" font-size="11" fill="#0a0a0a" font-weight="700" letter-spacing="2">OUTCOME</text>
+          <text x="60" y="676" font-family="DM Sans" font-size="18" fill="#0a0a0a" font-weight="700">Green ✓ on every PR</text>
+          <text x="60" y="700" font-family="DM Sans" font-size="18" fill="#0a0a0a" font-weight="700">Live URL after every merge to main</text>
         </svg>
       </div>
 
