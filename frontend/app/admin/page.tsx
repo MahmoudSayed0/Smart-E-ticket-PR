@@ -18,7 +18,7 @@ import {
   FlaskConical,
 } from 'lucide-react';
 import TestResults from '../../components/TestResults';
-import { api, EventDto, EventType, TicketDto } from '../lib/api';
+import { api, API_BASE, EventDto, EventType, TicketDto } from '../lib/api';
 
 type TicketsByEvent = Record<string, TicketDto[]>;
 type Tab = 'dashboard' | 'tests';
@@ -164,7 +164,7 @@ export default function AdminPage() {
               Tests
             </NavButton>
             <a
-              href="http://localhost:4000/api-docs"
+              href={`${API_BASE}/api-docs`}
               target="_blank"
               rel="noreferrer"
               className="flex items-center gap-1.5 rounded-md border-2 border-transparent px-3 py-1.5 text-xs font-bold text-foreground transition hover:bg-muted"

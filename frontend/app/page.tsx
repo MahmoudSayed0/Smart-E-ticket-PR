@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Ticket, BookOpen, ArrowRight } from 'lucide-react';
+import { API_BASE } from './lib/api';
 
 export default function HomePage() {
   return (
@@ -22,7 +23,7 @@ export default function HomePage() {
             <ArrowRight className="h-5 w-5" strokeWidth={2.5} />
           </Link>
           <a
-            href="http://localhost:4000/api-docs"
+            href={`${API_BASE}/api-docs`}
             target="_blank"
             rel="noreferrer"
             className="soft-button soft-button-outline text-base"

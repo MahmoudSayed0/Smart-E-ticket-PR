@@ -11,6 +11,7 @@ import {
   User,
   Plus,
 } from 'lucide-react';
+import { API_BASE } from '../app/lib/api';
 
 const mainNav = [
   { icon: LayoutDashboard, label: 'Dashboard', href: '/admin', active: true },
@@ -23,7 +24,7 @@ const toolsNav = [
   {
     icon: BookOpen,
     label: 'API Docs',
-    href: 'http://localhost:4000/api-docs',
+    href: `${API_BASE}/api-docs`,
     external: true,
   },
   { icon: Settings, label: 'Settings', href: '#settings' },
