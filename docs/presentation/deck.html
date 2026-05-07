@@ -1197,9 +1197,9 @@
         </div>
         <div class="code" style="background:#1a1a2e; border-color:var(--accent);">
 <span class="com">// Local dev / tests  → DB_DRIVER unset → in-memory Map</span>
-<span class="com">// Production (Render) → DB_DRIVER=sqlite → better-sqlite3</span>
-<span class="com">//                       writes to /var/data/eticketing.db</span>
-<span class="com">//                       (Render's persistent disk)</span>
+<span class="com">// Production (Railway, Docker) →</span>
+<span class="com">//   DB_DRIVER=sqlite → better-sqlite3</span>
+<span class="com">//   writes to data/eticketing.db inside the container</span>
 
 <span class="com">// Adding PostgreSQL = one new class +</span>
 <span class="com">// one switch arm. Service layer never moves.</span>
@@ -1584,9 +1584,9 @@
           <text x="685" y="270" font-family="Space Mono" font-size="12" fill="#5a5a5a" text-anchor="middle">Next.js · auto-deploy</text>
 
           <rect x="790" y="200" width="170" height="80" rx="12" fill="#FFFFFF" stroke="#0a0a0a" stroke-width="3"/>
-          <text x="875" y="228" font-family="Space Mono" font-size="12" fill="#5A3BDE" font-weight="700" text-anchor="middle" letter-spacing="2">CD · RENDER</text>
+          <text x="875" y="228" font-family="Space Mono" font-size="12" fill="#5A3BDE" font-weight="700" text-anchor="middle" letter-spacing="2">CD · RAILWAY</text>
           <text x="875" y="252" font-family="DM Sans" font-size="16" fill="#0a0a0a" font-weight="700" text-anchor="middle">Backend</text>
-          <text x="875" y="270" font-family="Space Mono" font-size="12" fill="#5a5a5a" text-anchor="middle">NestJS · 1GB SQLite disk</text>
+          <text x="875" y="270" font-family="Space Mono" font-size="12" fill="#5a5a5a" text-anchor="middle">Docker · NestJS · SQLite</text>
 
           <line x1="685" y1="200" x2="755" y2="115" stroke="#0a0a0a" stroke-width="2" stroke-dasharray="6,4"/>
           <line x1="875" y1="200" x2="805" y2="115" stroke="#0a0a0a" stroke-width="2" stroke-dasharray="6,4"/>
@@ -1598,20 +1598,25 @@
         </svg>
       </div>
 
-      <div class="col" style="gap:14px;">
-        <div class="card-purple">
-          <div class="mono small" style="color:var(--accent); letter-spacing:0.14em; margin-bottom:6px; font-weight:700;">CI · GITHUB ACTIONS</div>
-          <div class="body" style="color:var(--paper);">Two parallel jobs: <strong>backend</strong> (install · lint · <code style="background:rgba(255,255,255,0.18); color:var(--paper);">npm run test:cov</code> · build) and <strong>frontend</strong> (install · lint · build). Coverage uploaded as artefact.</div>
+      <div class="col" style="gap:12px; min-width:0;">
+        <div class="card-purple" style="padding:18px 20px;">
+          <div class="mono" style="font-size:12px; color:var(--accent); letter-spacing:0.16em; font-weight:700; margin-bottom:6px;">CI · GITHUB ACTIONS</div>
+          <div style="font-size:16px; line-height:1.45; color:var(--paper);">Two parallel jobs — <strong>backend</strong> (install · lint · test · build) and <strong>frontend</strong> (install · lint · build). Coverage uploaded as artefact.</div>
         </div>
 
-        <div class="card-teal">
-          <div class="mono small" style="color:var(--ink); letter-spacing:0.14em; margin-bottom:6px; font-weight:700;">CD · VERCEL · FRONTEND</div>
-          <div class="body" style="color:var(--ink); font-weight:600;">Project root set to <code style="background:rgba(0,0,0,0.1); color:var(--ink);">frontend/</code>. Auto-deploys Next.js 15 on every push to <code style="background:rgba(0,0,0,0.1); color:var(--ink);">main</code>.</div>
+        <div class="card-teal" style="padding:18px 20px;">
+          <div class="mono" style="font-size:12px; color:var(--ink); letter-spacing:0.16em; font-weight:700; margin-bottom:6px;">CD · VERCEL · FRONTEND</div>
+          <div style="font-size:16px; line-height:1.45; color:var(--ink); font-weight:500;">Auto-deploys Next.js 15 on every push to <code style="background:rgba(0,0,0,0.1); color:var(--ink);">main</code>. Live at <code style="background:rgba(0,0,0,0.1); color:var(--ink);">smart-e-ticket.vercel.app</code>.</div>
         </div>
 
-        <div class="card-orange">
-          <div class="mono small" style="color:var(--ink); letter-spacing:0.14em; margin-bottom:6px; font-weight:700;">CD · RENDER · BACKEND</div>
-          <div class="body" style="color:var(--ink); font-weight:600;"><code style="background:rgba(0,0,0,0.1); color:var(--ink);">render.yaml</code> blueprint provisions a Node web service with a 1 GB persistent disk. Boot env: <code style="background:rgba(0,0,0,0.1); color:var(--ink);">DB_DRIVER=sqlite</code> → SQLite repository binding kicks in.</div>
+        <div class="card-orange" style="padding:18px 20px;">
+          <div class="mono" style="font-size:12px; color:var(--ink); letter-spacing:0.16em; font-weight:700; margin-bottom:6px;">CD · RAILWAY · BACKEND</div>
+          <div style="font-size:16px; line-height:1.45; color:var(--ink); font-weight:500;"><strong>Docker</strong>-based deploy from <code style="background:rgba(0,0,0,0.1); color:var(--ink);">backend/Dockerfile</code> (Node 22, build tools for native bindings). <code style="background:rgba(0,0,0,0.1); color:var(--ink);">DB_DRIVER=sqlite</code> binds the SQLite repository.</div>
+        </div>
+
+        <div class="card" style="padding:14px 18px;">
+          <div class="mono" style="font-size:11px; color:var(--primary); letter-spacing:0.16em; font-weight:700; margin-bottom:4px;">BONUS UNLOCKED</div>
+          <div style="font-size:14px; line-height:1.4; color:var(--ink-2);">CI/CD ✓ &nbsp; Docker ✓ &nbsp; Live deployment ✓</div>
         </div>
       </div>
     </div>
@@ -1768,16 +1773,22 @@
       </div>
 
       <div class="card-purple">
-        <div class="mono small" style="color:var(--accent); letter-spacing:0.14em; font-weight:700; margin-bottom:18px;">ENHANCEMENT BACKLOG</div>
-        <div style="font-size:20px; line-height:1.55; color:var(--paper);">
+        <div class="mono small" style="color:var(--accent); letter-spacing:0.14em; font-weight:700; margin-bottom:14px;">ENHANCEMENT BACKLOG</div>
+        <div style="font-size:14px; line-height:1.5; color:var(--paper); margin-bottom:14px; padding-bottom:14px; border-bottom:1.5px dashed rgba(255,255,255,0.3);">
+          <span style="color:var(--accent); font-weight:700;">SHIPPED ✓</span><br>
+          ✓ <strong>SQLite repository</strong> swapped in via DB_DRIVER env<br>
+          ✓ <strong>Docker</strong> container for the backend (Node 22 image)<br>
+          ✓ <strong>CI/CD</strong> — GitHub Actions + Vercel + Railway<br>
+          ✓ <strong>Live deployment</strong> — Frontend + Backend reachable on the public internet
+        </div>
+        <div style="font-size:14px; line-height:1.5; color:var(--paper);">
+          <span style="color:var(--accent); font-weight:700;">NEXT ITERATION</span><br>
           • Add <strong>Observer</strong> pattern → ticket lifecycle notifications<br>
-          • Swap in-memory repo for <strong>PostgreSQL via Prisma</strong><br>
-          • <strong>ExpiringCodeStrategy</strong> + <strong>IPaymentStrategy</strong> (Stripe / PayPal / Cash)<br>
+          • Migrate SQLite → <strong>PostgreSQL via Prisma</strong><br>
+          • <strong>ExpiringCodeStrategy</strong> + <strong>IPaymentStrategy</strong> (Stripe / PayPal)<br>
           • <strong>Cypress E2E</strong> tests for the full create → redeem flow<br>
           • <strong>Role-based auth</strong> for Admin / Holder / Gate Staff<br>
-          • <strong>WCAG AA</strong> accessibility audit + keyboard nav<br>
-          • <strong>OpenAPI client SDK</strong> for the frontend<br>
-          • <strong>ADR folder</strong> capturing every architectural decision
+          • <strong>WCAG AA</strong> accessibility audit + keyboard nav
         </div>
       </div>
     </div>
@@ -1916,22 +1927,29 @@
         </div>
       </div>
 
-      <div style="display:flex; flex-direction:column; gap:14px;">
-        <div style="background:var(--accent); color:var(--ink); border:2px solid var(--ink); border-radius:14px; padding:18px 20px; box-shadow:6px 6px 0 0 rgba(0,0,0,0.55);">
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="background:var(--accent); color:var(--ink); border:2px solid var(--ink); border-radius:14px; padding:14px 18px; box-shadow:6px 6px 0 0 rgba(0,0,0,0.55);">
           <div class="mono" style="font-size:11px; letter-spacing:0.18em; color:var(--ink); font-weight:700;">SUPERVISOR</div>
-          <div style="font-size:24px; font-weight:700; color:var(--ink); margin-top:6px; line-height:1.15;">Dr. Ihab Ramadan</div>
-          <div class="mono" style="font-size:13px; color:var(--ink); margin-top:6px;">Software Engineering · 2026</div>
+          <div style="font-size:22px; font-weight:700; color:var(--ink); margin-top:4px; line-height:1.15;">Dr. Ihab Ramadan</div>
         </div>
-        <div style="background:rgba(255,255,255,0.08); border:2px solid rgba(255,255,255,0.35); border-radius:14px; padding:16px 20px;">
-          <div class="mono" style="font-size:11px; letter-spacing:0.16em; color:var(--accent); font-weight:700;">REPOSITORY</div>
-          <div class="mono" style="font-size:14px; color:var(--paper); margin-top:6px; line-height:1.45;">github.com/MahmoudSayed0<br>/Smart-E-ticket-PR</div>
+        <div style="background:rgba(255,255,255,0.08); border:2px solid rgba(255,255,255,0.35); border-radius:14px; padding:12px 18px;">
+          <div class="mono" style="font-size:10px; letter-spacing:0.16em; color:var(--accent); font-weight:700;">FRONTEND · LIVE</div>
+          <div class="mono" style="font-size:12px; color:var(--paper); margin-top:3px;">smart-e-ticket.vercel.app</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.08); border:2px solid rgba(255,255,255,0.35); border-radius:14px; padding:12px 18px;">
+          <div class="mono" style="font-size:10px; letter-spacing:0.16em; color:var(--accent); font-weight:700;">BACKEND · DOCKER · RAILWAY</div>
+          <div class="mono" style="font-size:12px; color:var(--paper); margin-top:3px; word-break:break-all;">smart-eticketing-backend-production-0222.up.railway.app</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.08); border:2px solid rgba(255,255,255,0.35); border-radius:14px; padding:12px 18px;">
+          <div class="mono" style="font-size:10px; letter-spacing:0.16em; color:var(--accent); font-weight:700;">REPO · CI ✓</div>
+          <div class="mono" style="font-size:12px; color:var(--paper); margin-top:3px;">github.com/MahmoudSayed0/Smart-E-ticket-PR</div>
         </div>
       </div>
     </div>
 
     <div style="display:flex; justify-content:space-between; align-items:center; padding-top:18px; border-top:2px solid rgba(255,255,255,0.4);">
-      <div class="mono" style="font-size:16px; color:var(--accent); letter-spacing:0.14em; font-weight:700;">REPOSITORY · FACTORY · STRATEGY · SOLID · 46 TESTS</div>
-      <div class="mono" style="font-size:18px; color:var(--paper);">30 / 30</div>
+      <div class="mono" style="font-size:13px; color:var(--accent); letter-spacing:0.14em; font-weight:700;">REPOSITORY · FACTORY · STRATEGY · SOLID · 46 TESTS · CI/CD ✓ · DOCKER ✓</div>
+      <div class="mono" style="font-size:16px; color:var(--paper);">FIN</div>
     </div>
   </section>
 
