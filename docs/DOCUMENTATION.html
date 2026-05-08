@@ -1,0 +1,3009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Smart E-Ticketing System — Documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0a;
+    --ink-2: #2a2a2a;
+    --ink-3: #5a5a5a;
+    --paper: #F8F5EB;
+    --paper-2: #efe9d8;
+    --card: #FFFFFF;
+    --primary: #5A3BDE;
+    --primary-soft: #ece6ff;
+    --secondary: #2DBAAC;
+    --secondary-soft: #d6f1ed;
+    --accent: #F2A640;
+    --accent-soft: #fbe7c8;
+    --line: rgba(0, 0, 0, 0.18);
+    --line-strong: #0a0a0a;
+    --shadow-sm: 4px 4px 0 0 #0a0a0a;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "DM Sans", system-ui, sans-serif;
+    line-height: 1.6;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--primary); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    max-width: 1400px;
+    margin: 0 auto;
+    gap: 0;
+  }
+
+  /* Sidebar */
+  aside.sidebar {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 30px 24px;
+    border-right: 2px solid var(--line-strong);
+    background: var(--paper);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+    padding: 10px 12px;
+    background: var(--primary);
+    color: white;
+    border: 2px solid var(--line-strong);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+  }
+  .brand .ic { color: var(--accent); }
+  .brand-text { line-height: 1.1; }
+  .brand-text .top {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    font-family: "Space Mono", monospace;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .brand-text .name {
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 2px;
+  }
+
+  .nav-title {
+    font-family: "Space Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    margin: 0 0 12px 8px;
+    font-weight: 600;
+  }
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    color: var(--ink);
+    font-size: 13.5px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    border: 2px solid transparent;
+  }
+  .nav-link:hover, .nav-link:focus { background: var(--card); border-color: var(--line); text-decoration: none; }
+  .nav-link.active { background: var(--primary-soft); border-color: var(--primary); color: var(--primary); font-weight: 700; }
+  .nav-link .ic { color: var(--primary); flex-shrink: 0; }
+
+  .nav-foot {
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1.5px dashed var(--line);
+    font-family: "Space Mono", monospace;
+    font-size: 11px;
+    color: var(--ink-3);
+    line-height: 1.5;
+  }
+
+  /* Main */
+  main { padding: 40px 56px 80px; max-width: 940px; }
+
+  /* Cover */
+  .cover {
+    border: 2px solid var(--line-strong);
+    border-radius: 18px;
+    padding: 44px 40px;
+    background: var(--card);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 48px;
+  }
+  .cover-tag {
+    display: inline-block;
+    font-family: "Space Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    background: var(--primary);
+    color: white;
+    padding: 5px 14px;
+    border-radius: 999px;
+    border: 2px solid var(--line-strong);
+    font-weight: 700;
+  }
+  .cover-title {
+    font-size: 64px;
+    line-height: 0.98;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    margin: 18px 0 0;
+  }
+  .cover-title em {
+    font-family: "Fraunces", serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--primary);
+  }
+  .cover-sub {
+    font-size: 16px;
+    color: var(--ink-2);
+    margin: 18px 0 32px;
+    max-width: 720px;
+  }
+  .cover-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin-top: 28px;
+  }
+  .cover-card {
+    background: var(--paper-2);
+    border: 2px solid var(--line-strong);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .cover-card-tag {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: "Space Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--primary);
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .cover-card-body { font-size: 13px; line-height: 1.55; }
+  .cover-card-body strong { color: var(--ink); }
+  .cover-card-body a { word-break: break-all; }
+
+  /* Sections / parts */
+  section.part { margin-bottom: 56px; scroll-margin-top: 16px; }
+  section.part + section.part { padding-top: 56px; border-top: 1.5px dashed var(--line); }
+
+  .part-head {
+    margin-bottom: 22px;
+  }
+  .part-tag {
+    display: inline-block;
+    font-family: "Space Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--primary);
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .part-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .part-title h1 {
+    margin: 0;
+    font-size: 36px;
+    line-height: 1.05;
+    letter-spacing: -0.018em;
+    font-weight: 700;
+  }
+  .part-title .ic { color: var(--primary); flex-shrink: 0; }
+
+  /* Body content (rendered from markdown) */
+  .part-body { color: var(--ink); }
+  .part-body h1, .part-body h2 {
+    color: var(--primary);
+    margin: 36px 0 12px;
+    line-height: 1.2;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .part-body h1 { font-size: 26px; border-bottom: 1.5px solid var(--line); padding-bottom: 8px; }
+  .part-body h2 { font-size: 22px; }
+  .part-body h3 { color: var(--secondary); font-size: 17px; margin: 24px 0 8px; font-weight: 700; display:flex; align-items:center; gap:8px; }
+  .part-body h4 { font-size: 15px; margin: 18px 0 6px; font-weight: 700; }
+  .part-body p { margin: 8px 0 12px; font-size: 14.5px; }
+  .part-body ul, .part-body ol { padding-left: 24px; margin: 8px 0 14px; }
+  .part-body li { margin: 4px 0; font-size: 14.5px; }
+  .part-body strong { color: var(--ink); }
+  .part-body em { color: var(--ink-2); }
+
+  .part-body code {
+    font-family: "Space Mono", monospace;
+    background: var(--primary-soft);
+    color: var(--primary);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+  .part-body pre {
+    background: #0d0d18;
+    color: #f3f0ff;
+    padding: 16px 18px;
+    border-radius: 10px;
+    border: 2px solid var(--line-strong);
+    box-shadow: var(--shadow-sm);
+    overflow-x: auto;
+    font-size: 12.5px;
+    line-height: 1.55;
+    margin: 14px 0;
+  }
+  .part-body pre code { background: transparent; color: inherit; padding: 0; font-size: inherit; }
+
+  .part-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 13.5px;
+    border: 2px solid var(--line-strong);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .part-body th {
+    background: var(--primary);
+    color: white;
+    padding: 9px 12px;
+    text-align: left;
+    font-weight: 700;
+    font-family: "Space Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .part-body td {
+    padding: 8px 12px;
+    border-top: 1px solid var(--line);
+    vertical-align: top;
+  }
+  .part-body tr:nth-child(even) td { background: var(--paper-2); }
+
+  .part-body blockquote {
+    border-left: 4px solid var(--accent);
+    background: var(--accent-soft);
+    padding: 10px 18px;
+    margin: 14px 0;
+    border-radius: 0 8px 8px 0;
+    color: var(--ink-2);
+    font-size: 14px;
+  }
+
+  .part-body hr {
+    border: none;
+    border-top: 1.5px dashed var(--line);
+    margin: 28px 0;
+  }
+
+  /* Print */
+  @media print {
+    .layout { grid-template-columns: 1fr; }
+    aside.sidebar { display: none; }
+    main { padding: 18px; max-width: none; }
+    section.part { break-after: page; }
+    section.part + section.part { border-top: none; padding-top: 0; }
+    .cover { break-after: page; }
+    .part-body pre, .part-body table { break-inside: avoid; }
+  }
+
+  /* Mobile */
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    aside.sidebar { position: static; height: auto; border-right: none; border-bottom: 2px solid var(--line-strong); }
+    main { padding: 24px 18px; }
+    .cover-title { font-size: 44px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <svg class="ic" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></svg>
+      <div class="brand-text">
+        <div class="top">SE Project · 2026</div>
+        <div class="name">Smart E-Ticketing</div>
+      </div>
+    </div>
+    <div class="nav-title">Documentation</div>
+    <a class="nav-link" href="#overview"><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Project Overview</span></a>
+<a class="nav-link" href="#srs"><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg><span>Software Requirements Specification</span></a>
+<a class="nav-link" href="#architecture"><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg><span>Architecture and Design Patterns</span></a>
+<a class="nav-link" href="#testing"><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/></svg><span>Test Cases and Quality Assurance</span></a>
+<a class="nav-link" href="#delivery"><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/></svg><span>Delivery Index</span></a>
+    <div class="nav-foot">
+      Supervised by<br>
+      <strong style="color:var(--ink); font-family:'DM Sans',sans-serif; font-weight:700;">Dr. Ihab Ramadan</strong>
+    </div>
+  </aside>
+
+  <main>
+    
+<header class="cover">
+  <div class="cover-tag">SE PROJECT &middot; FINAL DELIVERY &middot; 2026</div>
+  <h1 class="cover-title">
+    <span>Smart</span>
+    <em>E-Ticketing</em>
+    <span>System</span>
+  </h1>
+  <p class="cover-sub">
+    Software Engineering &mdash; Course Project. Demonstrating Agile/Scrum, Clean Code, SOLID,
+    GoF Design Patterns, automated testing, CI/CD, Docker, and live deployment.
+  </p>
+  <div class="cover-grid">
+    <div class="cover-card">
+      <div class="cover-card-tag"><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Team</div>
+      <div class="cover-card-body">
+        <strong>Mahmoud</strong> &mdash; Product Owner &amp; Scrum Master<br>
+        <strong>Mohammed</strong> &mdash; Software Engineer<br>
+        <strong>Esraa</strong> &mdash; Software Engineer<br>
+        <strong>Ali</strong> &mdash; Backend Developer<br>
+        <strong>Amr</strong> &mdash; Frontend Developer<br>
+        <strong>Seif</strong> &mdash; QA / Test Engineer
+      </div>
+    </div>
+    <div class="cover-card">
+      <div class="cover-card-tag"><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Supervisor</div>
+      <div class="cover-card-body">
+        <strong>Dr. Ihab Ramadan</strong><br>
+        Software Engineering &middot; 2026
+      </div>
+    </div>
+    <div class="cover-card">
+      <div class="cover-card-tag"><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>Live System</div>
+      <div class="cover-card-body">
+        <a href="https://smart-e-ticket.vercel.app">smart-e-ticket.vercel.app</a> &mdash; frontend<br>
+        <a href="https://smart-eticketing-backend-production-0222.up.railway.app/api-docs">/api-docs</a> &mdash; Swagger<br>
+        <a href="https://github.com/MahmoudSayed0/Smart-E-ticket-PR">github.com/MahmoudSayed0/Smart-E-ticket-PR</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+    
+<section id="overview" class="part">
+  <div class="part-head">
+    <div class="part-tag">Part 1</div>
+    <div class="part-title">
+      <svg class="ic" xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <h1>Project Overview</h1>
+    </div>
+  </div>
+  <div class="part-body">
+    
+<blockquote>
+<p>A full-stack <strong>Software Engineering course project</strong> demonstrating Agile/Scrum, Clean Code, SOLID principles, and three GoF design patterns: <strong>Repository</strong>, <strong>Factory</strong>, and <strong>Strategy</strong>.</p>
+</blockquote>
+<p><a href="https://github.com/MahmoudSayed0/Smart-E-ticket-PR/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/MahmoudSayed0/Smart-E-ticket-PR/actions/workflows/ci.yml/badge.svg" /></a> <img alt="Stack" src="https://img.shields.io/badge/backend-NestJS-red" /> <img alt="Stack" src="https://img.shields.io/badge/frontend-Next.js-black" /> <img alt="Stack" src="https://img.shields.io/badge/language-TypeScript-blue" /> <img alt="Tests" src="https://img.shields.io/badge/tests-46_passing-green" /> <img alt="Coverage" src="https://img.shields.io/badge/coverage-83%25-brightgreen" /> <img alt="Storage" src="https://img.shields.io/badge/storage-in--memory_or_SQLite-blueviolet" /></p>
+<h2 id="iconglobe-live-deployment"><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg> Live Deployment</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>URL</th>
+<th>Stack</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Frontend</strong></td>
+<td><a href="https://smart-e-ticket.vercel.app">smart-e-ticket.vercel.app</a></td>
+<td>Next.js 15 on <strong>Vercel</strong></td>
+</tr>
+<tr>
+<td><strong>Backend API</strong></td>
+<td><a href="https://smart-eticketing-backend-production-0222.up.railway.app/api-docs">smart-eticketing-backend-production-0222.up.railway.app</a></td>
+<td>NestJS in <strong>Docker</strong> on <strong>Railway</strong> (SQLite repository binding)</td>
+</tr>
+<tr>
+<td><strong>Swagger UI</strong></td>
+<td><a href="https://smart-eticketing-backend-production-0222.up.railway.app/api-docs"><code>/api-docs</code></a></td>
+<td>Auto-generated OpenAPI</td>
+</tr>
+<tr>
+<td><strong>GitHub Actions</strong></td>
+<td><a href="https://github.com/MahmoudSayed0/Smart-E-ticket-PR/actions/workflows/ci.yml">Workflow runs</a></td>
+<td>Lint · test · build on every push</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> The Railway free tier sleeps the backend after 15 min idle. Wake it by hitting the Swagger URL once before testing the live frontend.</p>
+</blockquote>
+<h2 id="iconcontainer-cicd"><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 7.7c0-.6-.4-1.2-.8-1.5l-6.3-3.9c-.1-.1-.4-.2-.6-.2-.2 0-.4.1-.6.2L7.5 6.2c-.5.3-.8.9-.8 1.5v6.3c0 .6.4 1.2.8 1.5l6.3 3.9c.1.1.4.2.6.2.2 0 .5-.1.6-.2l6.3-3.9c.5-.3.8-.9.8-1.5z"/><path d="M10 21.94 6 19.5"/><path d="M2.94 13H5"/><path d="M2.94 9H5"/><path d="M2.94 5H5"/></svg> CI/CD</h2>
+<table>
+<thead>
+<tr>
+<th>Pipeline</th>
+<th>Trigger</th>
+<th>What it runs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CI</strong> (<a href=".github/workflows/ci.yml"><code>.github/workflows/ci.yml</code></a>)</td>
+<td>every push + every PR</td>
+<td>install → lint → unit tests with coverage → build (backend + frontend in parallel)</td>
+</tr>
+<tr>
+<td><strong>CD — frontend</strong></td>
+<td>push to <code>main</code></td>
+<td>auto-deploys to <strong>Vercel</strong> (project Root Directory = <code>frontend/</code>). <code>NEXT_PUBLIC_API_BASE</code> env var points at the Railway backend URL.</td>
+</tr>
+<tr>
+<td><strong>CD — backend</strong></td>
+<td>push to <code>main</code></td>
+<td>builds <strong><a href="backend/Dockerfile"><code>backend/Dockerfile</code></a></strong> (Node 22, build tools for <code>better-sqlite3</code> native binding) and ships the container to <strong>Railway</strong>. <code>DB_DRIVER=sqlite</code> is set in the image so the SQLite repository binding kicks in at boot.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="pluggable-storage-the-repository-pattern-in-action">Pluggable storage — the Repository pattern in action</h3>
+<p>Storage is decided at boot from the <code>DB_DRIVER</code> environment variable:</p>
+<pre class="highlight"><code class="language-ts">// backend/src/app.module.ts
+const useSqlite = process.env.DB_DRIVER === 'sqlite';
+{ provide: EVENT_REPOSITORY,  useClass: useSqlite ? SqliteEventRepository  : InMemoryEventRepository  },
+{ provide: TICKET_REPOSITORY, useClass: useSqlite ? SqliteTicketRepository : InMemoryTicketRepository },
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>Environment</th>
+<th><code>DB_DRIVER</code></th>
+<th>Backing store</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Local dev / <code>npm test</code></td>
+<td>unset</td>
+<td>In-memory <code>Map&lt;&gt;</code> (fast, no setup)</td>
+</tr>
+<tr>
+<td>Production (Railway, Docker)</td>
+<td><code>sqlite</code></td>
+<td><code>better-sqlite3</code> writing to <code>data/eticketing.db</code> inside the container</td>
+</tr>
+</tbody>
+</table>
+<p><code>grep -r 'Sqlite\|InMemory' backend/src/service/</code> returns <strong>zero matches</strong> — services depend only on the interfaces. That is the entire point of the pattern, and you can witness it live by hitting the deployed URL.</p>
+<h2 id="iconlist-checks-overview"><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg> Overview</h2>
+<p>The Smart E-Ticketing System is an <strong>MVP web application</strong> where administrators create events (concerts, conferences, sports) and generate unique one-time-use tickets for them. Ticket holders view their tickets via a unique link, see a countdown timer until the event starts, and redeem the ticket at the venue. The system prevents double-redemption and blocks operations on expired events.</p>
+<p>This project is intentionally an <strong>academic exercise</strong> — the goal is to practice software engineering disciplines (SRS, UML, SOLID, patterns, tests, Agile), not to ship a commercial product.</p>
+<h2 id="iconcheck-features"><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Features</h2>
+<ul>
+<li><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Create events (Concert, Conference, Sports — polymorphic via Factory pattern)</li>
+<li><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Generate one-time-use tickets with unique codes (Strategy pattern)</li>
+<li><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> View tickets via unique URL with live QR code and 3D tilt animation</li>
+<li><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Redeem tickets at the venue (one-time only)</li>
+<li><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Live countdown timer — event expires at <code>eventDate</code></li>
+<li><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Backend enforces: no redemption after expiry, no generation on expired events, no double-redemption</li>
+<li><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> In-memory repository behind an interface (swappable to a real DB without touching services)</li>
+<li><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Swagger UI auto-generated at <code>/api-docs</code></li>
+<li><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Responsive dashboard with sidebar, KPI cards, bar chart, and sticky create form</li>
+</ul>
+<h2 id="iconlayers-architecture"><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg> Architecture</h2>
+<p>Four-layer <strong>Layered Architecture</strong> with strict dependency direction (top → bottom):</p>
+<pre class="highlight"><code>┌──────────────────────────────────────────────┐
+│  PRESENTATION  (Next.js pages, React)        │
+└──────────────────────────────────────────────┘
+                  ↓ HTTP
+┌──────────────────────────────────────────────┐
+│  CONTROLLER  (NestJS REST endpoints)         │
+└──────────────────────────────────────────────┘
+                  ↓
+┌──────────────────────────────────────────────┐
+│  SERVICE  (business logic, patterns)         │
+└──────────────────────────────────────────────┘
+                  ↓ depends on interfaces only
+┌──────────────────────────────────────────────┐
+│  REPOSITORY  (in-memory Map&lt;&gt;)               │
+└──────────────────────────────────────────────┘
+                  ↓
+┌──────────────────────────────────────────────┐
+│  DOMAIN  (entities + enums)                  │
+└──────────────────────────────────────────────┘
+</code></pre>
+
+<p>Every folder in <code>backend/src/</code> maps 1:1 to a layer. See <a href="docs/ARCHITECTURE.md"><code>docs/ARCHITECTURE.md</code></a> for the full walkthrough.</p>
+<h2 id="iconpackage-design-patterns-implemented"><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/></svg> Design Patterns Implemented</h2>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Location</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Repository</strong></td>
+<td><code>backend/src/repository/</code></td>
+<td>Abstracts data access behind <code>IEventRepository</code> and <code>ITicketRepository</code>, enabling in-memory now and PostgreSQL later with zero service changes</td>
+</tr>
+<tr>
+<td><strong>Factory</strong></td>
+<td><code>backend/src/factory/event.factory.ts</code></td>
+<td>Creates polymorphic <code>ConcertEvent</code>, <code>ConferenceEvent</code>, or <code>SportsEvent</code> from a single <code>CreateEventDto</code></td>
+</tr>
+<tr>
+<td><strong>Strategy</strong></td>
+<td><code>backend/src/strategy/</code></td>
+<td>Three interchangeable ticket-code algorithms (<code>UuidCodeStrategy</code>, <code>ShortCodeStrategy</code>, <code>NumericCodeStrategy</code>) selected via DI</td>
+</tr>
+</tbody>
+</table>
+<h2 id="iconcog-tech-stack"><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/><path d="M12 2v2"/><path d="M12 22v-2"/><path d="m17 20.66-1-1.73"/><path d="M11 10.27 7 3.34"/><path d="m20.66 17-1.73-1"/><path d="m3.34 7 1.73 1"/><path d="M14 12h8"/><path d="M2 12h2"/><path d="m20.66 7-1.73 1"/><path d="m3.34 17 1.73-1"/><path d="m17 3.34-1 1.73"/><path d="m7 20.66 1-1.73"/></svg> Tech Stack</h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Tool</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Backend</strong></td>
+<td>NestJS 10 + TypeScript</td>
+<td>Built-in DI container makes SOLID principles visible and enforceable</td>
+</tr>
+<tr>
+<td><strong>Frontend</strong></td>
+<td>Next.js 15 + React 19 + TypeScript</td>
+<td>Modern web app, App Router, server/client split</td>
+</tr>
+<tr>
+<td><strong>Styling</strong></td>
+<td>Tailwind CSS 3 + Soft-pop theme (tweakcn) + shadcn-style dashboard</td>
+<td>Unique look, fast build</td>
+</tr>
+<tr>
+<td><strong>Icons</strong></td>
+<td>Lucide React</td>
+<td>Consistent, lightweight icon set</td>
+</tr>
+<tr>
+<td><strong>Charts</strong></td>
+<td>Recharts</td>
+<td>Bar chart on the admin dashboard</td>
+</tr>
+<tr>
+<td><strong>3D Animation</strong></td>
+<td>Motion (Framer Motion)</td>
+<td>TiltedCard wrapper on the ticket page</td>
+</tr>
+<tr>
+<td><strong>Testing</strong></td>
+<td>Jest + NestJS Testing utilities</td>
+<td>46 unit tests, 83% coverage</td>
+</tr>
+<tr>
+<td><strong>API Docs</strong></td>
+<td>@nestjs/swagger</td>
+<td>Auto-generated OpenAPI spec at <code>/api-docs</code></td>
+</tr>
+<tr>
+<td><strong>Version Control</strong></td>
+<td>Git + GitHub</td>
+<td>Feature branches + PRs</td>
+</tr>
+<tr>
+<td><strong>Agile Tracking</strong></td>
+<td>Notion</td>
+<td>Sprint plans, backlog, retrospectives</td>
+</tr>
+</tbody>
+</table>
+<h2 id="iconrocket-getting-started"><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09Z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22 22 0 0 1-4 2Z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg> Getting Started</h2>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Node.js 20 or newer</li>
+<li>npm (ships with Node)</li>
+</ul>
+<h3 id="setup">Setup</h3>
+<pre class="highlight"><code class="language-bash"># 1. Clone the repo
+git clone &lt;repo-url&gt; smart-eticketing
+cd smart-eticketing
+
+# 2. Install backend dependencies
+cd backend
+npm install
+
+# 3. Install frontend dependencies
+cd ../frontend
+npm install
+</code></pre>
+
+<h3 id="run-in-development">Run in development</h3>
+<p>Open <strong>two terminals</strong>:</p>
+<pre class="highlight"><code class="language-bash"># Terminal 1 — backend (port 4000)
+cd backend
+npm run start:dev
+# → http://localhost:4000
+# → Swagger docs at http://localhost:4000/api-docs
+</code></pre>
+
+<pre class="highlight"><code class="language-bash"># Terminal 2 — frontend (port 3000)
+cd frontend
+npm run dev
+# → http://localhost:3000
+# → Admin dashboard at http://localhost:3000/admin
+</code></pre>
+
+<h3 id="run-the-tests">Run the tests</h3>
+<pre class="highlight"><code class="language-bash">cd backend
+npm test            # run all tests
+npm run test:cov    # with coverage report
+</code></pre>
+
+<p>Expected output: <strong>46 tests passing, 8 suites green, ~83% line coverage</strong>.</p>
+<h2 id="iconfile-text-project-structure"><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg> Project Structure</h2>
+<pre class="highlight"><code>smart-eticketing/
+├── backend/                       NestJS backend
+│   ├── src/
+│   │   ├── domain/                Entities (Event, Ticket) + enums
+│   │   ├── repository/            Repository pattern (interfaces + in-memory impls)
+│   │   ├── factory/               Factory pattern (EventFactory)
+│   │   ├── strategy/              Strategy pattern (3 ticket code strategies)
+│   │   ├── service/               Business logic (EventService, TicketService)
+│   │   ├── controller/            REST endpoints
+│   │   ├── dto/                   Data Transfer Objects + class-validator rules
+│   │   ├── app.module.ts          DI wiring (binds interfaces → implementations)
+│   │   └── main.ts                Bootstrap + Swagger setup
+│   ├── package.json
+│   └── tsconfig.json
+│
+├── frontend/                      Next.js frontend
+│   ├── app/
+│   │   ├── page.tsx               Landing page
+│   │   ├── admin/page.tsx         Admin dashboard (sidebar + KPIs + chart + events)
+│   │   ├── tickets/[id]/page.tsx  Ticket detail (QR + countdown + redeem)
+│   │   ├── lib/
+│   │   │   ├── api.ts             Typed fetch client
+│   │   │   ├── useCountdown.ts    React hook for live countdown
+│   │   │   └── utils.ts           cn() class helper
+│   │   ├── layout.tsx             Root layout with DM Sans + Space Mono
+│   │   └── globals.css            Soft-pop theme CSS variables
+│   ├── components/
+│   │   ├── AppSidebar.tsx         Dashboard sidebar
+│   │   ├── SiteHeader.tsx         Sticky header with breadcrumb + search
+│   │   ├── TicketsChart.tsx       Recharts bar chart
+│   │   ├── AnimatedTicket.tsx     Ticket card with cut-outs + QR + details
+│   │   ├── TiltedCard.tsx         3D mouse-follow wrapper
+│   │   └── Countdown.tsx          Live countdown (badge + large variants)
+│   └── tailwind.config.ts
+│
+├── docs/                          All project documentation
+│   ├── SRS.md                     Software Requirements Specification
+│   ├── ARCHITECTURE.md            Architecture &amp; design patterns walkthrough
+│   ├── TEST_CASES.md              Manual test cases (QA-owned)
+│   ├── PRESENTATION.md            Slide outline + speaker notes
+│   ├── DEMO_SCRIPT.md             Step-by-step live demo script
+│   └── uml/                       PlantUML source files
+│       ├── use-case-diagram.puml
+│       ├── class-diagram.puml
+│       ├── sequence-generate-ticket.puml
+│       ├── sequence-redeem-ticket.puml
+│       └── activity-ticket-lifecycle.puml
+│
+└── README.md                      (this file)
+</code></pre>
+
+<h2 id="testing">Testing</h2>
+<p>The backend has <strong>46 unit tests</strong> across <strong>8 test suites</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Suite</th>
+<th>Tests</th>
+<th>Coverage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>domain/event.entity.spec.ts</code></td>
+<td>8</td>
+<td>100%</td>
+</tr>
+<tr>
+<td><code>domain/ticket.entity.spec.ts</code></td>
+<td>3</td>
+<td>100%</td>
+</tr>
+<tr>
+<td><code>repository/in-memory-event.repository.spec.ts</code></td>
+<td>5</td>
+<td>100%</td>
+</tr>
+<tr>
+<td><code>repository/in-memory-ticket.repository.spec.ts</code></td>
+<td>4</td>
+<td>100%</td>
+</tr>
+<tr>
+<td><code>strategy/strategies.spec.ts</code></td>
+<td>5</td>
+<td>100%</td>
+</tr>
+<tr>
+<td><code>factory/event.factory.spec.ts</code></td>
+<td>5</td>
+<td>93%</td>
+</tr>
+<tr>
+<td><code>service/event.service.spec.ts</code></td>
+<td>5</td>
+<td>100%</td>
+</tr>
+<tr>
+<td><code>service/ticket.service.spec.ts</code></td>
+<td>11</td>
+<td>100%</td>
+</tr>
+</tbody>
+</table>
+<p>Every service test <strong>mocks its repository and strategy dependencies</strong>, which proves that our Dependency Inversion is correctly wired — if the code weren't depending on interfaces, mocking would not be possible in one line.</p>
+<p>See <a href="docs/TEST_CASES.md"><code>docs/TEST_CASES.md</code></a> for the human-readable test case document used for manual QA.</p>
+<h2 id="iconbook-open-api-documentation"><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg> API Documentation</h2>
+<p>When the backend is running, open <strong>http://localhost:4000/api-docs</strong> for the interactive Swagger UI.</p>
+<h3 id="endpoints">Endpoints</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><code>/events</code></td>
+<td>Create a new event</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/events</code></td>
+<td>List all events</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/events/:id</code></td>
+<td>Get a single event</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/events/:eventId/tickets</code></td>
+<td>Generate a ticket</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/events/:eventId/tickets</code></td>
+<td>List tickets for an event</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/tickets/:id</code></td>
+<td>View a single ticket</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/tickets/:id/redeem</code></td>
+<td>Redeem a ticket</td>
+</tr>
+</tbody>
+</table>
+<p>All responses are JSON. All request DTOs are validated with <code>class-validator</code>.</p>
+<h2 id="iconusers-team"><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Team</h2>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Scrum Role</th>
+<th>Primary Deliverable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Mahmoud</strong></td>
+<td>Product Owner &amp; Scrum Master</td>
+<td>SRS, scope, backlog grooming, sprint rituals, Notion workspace, Definition of Done</td>
+</tr>
+<tr>
+<td><strong>Mohammed</strong></td>
+<td>Software Engineer</td>
+<td>Architecture, UML (use case + class), design rationale, layered architecture decisions</td>
+</tr>
+<tr>
+<td><strong>Esraa</strong></td>
+<td>Software Engineer</td>
+<td>Sequence + activity diagrams, schema, database-swap design, SOLID review</td>
+</tr>
+<tr>
+<td><strong>Ali</strong></td>
+<td>Backend Developer</td>
+<td>NestJS backend, the 3 GoF patterns in code (Repository · Factory · Strategy), Swagger, DI module wiring</td>
+</tr>
+<tr>
+<td><strong>Amr</strong></td>
+<td>Frontend Developer</td>
+<td>Next.js 15 frontend, <code>/admin</code> dashboard, <code>/tickets/[id]</code> page, AnimatedTicket, soft-pop theme, SOLID audit, live demo</td>
+</tr>
+<tr>
+<td><strong>Seif</strong></td>
+<td>QA / Test Engineer</td>
+<td>Jest unit tests, coverage reports, <a href="docs/TEST_CASES.md">test cases document</a>, mocking discipline</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Supervised by <strong>Dr. Ihab Ramadan</strong> · Software Engineering, 2026</p>
+</blockquote>
+<h2 id="iconcalendar-agile-process"><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg> Agile Process</h2>
+<p>Four one-week sprints were simulated and tracked in Notion:</p>
+<ol>
+<li><strong>Sprint 1</strong> — Requirements &amp; Design (SRS, UML, architecture)</li>
+<li><strong>Sprint 2</strong> — Domain &amp; Repository layer (entities + in-memory repos + 20 tests)</li>
+<li><strong>Sprint 3</strong> — Services, Patterns, REST API (Factory + Strategy + controllers + 26 tests)</li>
+<li><strong>Sprint 4</strong> — Frontend, Polish &amp; Demo (Next.js, presentation, expiry enforcement)</li>
+</ol>
+<p>Every sprint included Sprint Planning, Daily Standups, Sprint Review, and a Retrospective. See the Notion workspace for the full history.</p>
+<h2 id="license">License</h2>
+<p>Academic / Educational — not for commercial use.</p>
+<hr />
+<p>Built with  by the Smart E-Ticketing team for the Software Engineering course.</p>
+  </div>
+</section>
+
+<section id="srs" class="part">
+  <div class="part-head">
+    <div class="part-tag">Part 2</div>
+    <div class="part-title">
+      <svg class="ic" xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+      <h1>Software Requirements Specification</h1>
+    </div>
+  </div>
+  <div class="part-body">
+    
+<h2 id="smart-e-ticketing-system">Smart E-Ticketing System</h2>
+<p><strong>Version:</strong> 1.1
+<strong>Date:</strong> April 2026
+<strong>Prepared by:</strong> [Team Name]
+<strong>Course:</strong> Software Engineering
+<strong>Owner:</strong> Product Owner (Mahmoud)</p>
+<hr />
+<h2 id="1-introduction">1. Introduction</h2>
+<h3 id="11-purpose">1.1 Purpose</h3>
+<p>This document describes the functional and non-functional requirements of the <strong>Smart E-Ticketing System</strong>, a web-based application that enables event administrators to create events, generate one-time-use tickets, and allows ticket holders to view and redeem their tickets through a unique link.</p>
+<p>The purpose of this SRS is to serve as a contract between the development team and stakeholders, defining the scope, behavior, and constraints of the system before development begins.</p>
+<h3 id="12-scope">1.2 Scope</h3>
+<p>The Smart E-Ticketing System is an <strong>MVP (Minimum Viable Product)</strong> developed as an academic exercise to practice core software engineering principles: Agile methodology, SOLID design, design patterns, clean code, unit testing, and version control.</p>
+<p><strong>In Scope:</strong>
+- Creation and management of general-admission events by an administrator
+- Generation of unique, one-time-use tickets tied to events
+- Public viewing of a ticket via a unique URL
+- Ticket redemption (marking as "used") at the venue gate
+- Prevention of reusing an already-redeemed ticket
+- <strong>Prevention of operations on expired events (added v1.1)</strong>
+- In-memory data persistence abstracted behind the Repository pattern</p>
+<p><strong>Out of Scope (intentionally excluded for the MVP):</strong>
+- Payment processing or financial transactions
+- Seat selection or real-time seat locking
+- User registration, login, or password management
+- Email or SMS notifications
+- Refund, cancellation, or ticket transfer workflows
+- Multi-language or accessibility localization
+- Mobile native application
+- Persistent database (PostgreSQL, MySQL, etc.) — simulated via in-memory repository</p>
+<h3 id="13-definitions-acronyms-and-abbreviations">1.3 Definitions, Acronyms, and Abbreviations</h3>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Event</strong></td>
+<td>A scheduled happening (concert, conference, match) for which tickets are sold</td>
+</tr>
+<tr>
+<td><strong>Ticket</strong></td>
+<td>A unique, one-time-use entry pass associated with an event</td>
+</tr>
+<tr>
+<td><strong>Ticket Code</strong></td>
+<td>A unique alphanumeric identifier printed/shown on the ticket</td>
+</tr>
+<tr>
+<td><strong>Redemption</strong></td>
+<td>The act of using a ticket to gain entry; once redeemed, the ticket becomes invalid</td>
+</tr>
+<tr>
+<td><strong>Expired Event</strong></td>
+<td>An event whose <code>eventDate</code> is in the past; the system rejects ticket operations on expired events</td>
+</tr>
+<tr>
+<td><strong>Admin</strong></td>
+<td>User with privileges to create events and generate tickets</td>
+</tr>
+<tr>
+<td><strong>Ticket Holder</strong></td>
+<td>End user who possesses a ticket and may redeem it</td>
+</tr>
+<tr>
+<td><strong>MVP</strong></td>
+<td>Minimum Viable Product</td>
+</tr>
+<tr>
+<td><strong>SRS</strong></td>
+<td>Software Requirements Specification</td>
+</tr>
+<tr>
+<td><strong>API</strong></td>
+<td>Application Programming Interface</td>
+</tr>
+<tr>
+<td><strong>DTO</strong></td>
+<td>Data Transfer Object</td>
+</tr>
+<tr>
+<td><strong>SOLID</strong></td>
+<td>Five object-oriented design principles (SRP, OCP, LSP, ISP, DIP)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="14-references">1.4 References</h3>
+<ul>
+<li>IEEE Std 830-1998: Recommended Practice for Software Requirements Specifications</li>
+<li>Course Guidelines: <em>Software Engineering Project Guidelines</em></li>
+<li>Gang of Four, <em>Design Patterns: Elements of Reusable Object-Oriented Software</em></li>
+</ul>
+<hr />
+<h2 id="2-overall-description">2. Overall Description</h2>
+<h3 id="21-product-perspective">2.1 Product Perspective</h3>
+<p>The Smart E-Ticketing System is a <strong>standalone web application</strong> consisting of:
+- A <strong>backend REST API</strong> (NestJS + TypeScript) exposing endpoints for event and ticket management
+- A <strong>frontend web client</strong> (Next.js + TypeScript) providing the admin dashboard and public ticket page
+- An <strong>in-memory data store</strong> accessed exclusively through Repository interfaces, designed to be swappable with a relational database in the future without affecting business logic</p>
+<p>The system has no dependencies on external services.</p>
+<h3 id="22-product-functions">2.2 Product Functions</h3>
+<p>At a high level, the system shall:
+1. Allow an administrator to create new events
+2. Allow an administrator to generate one-time-use tickets for an event
+3. Allow an administrator to view a list of all events and their ticket counts
+4. Allow a ticket holder to view the details of a specific ticket via a unique URL
+5. Allow a ticket holder (or gate staff) to redeem a ticket, marking it as used
+6. Prevent the redemption of an already-used ticket
+7. Prevent the generation of tickets beyond the event's defined capacity
+8. Prevent the generation and redemption of tickets on expired events (v1.1)</p>
+<h3 id="23-user-classes-and-characteristics">2.3 User Classes and Characteristics</h3>
+<table>
+<thead>
+<tr>
+<th>User Class</th>
+<th>Description</th>
+<th>Technical Skill</th>
+<th>Frequency of Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Administrator</strong></td>
+<td>Event organizer who creates events and generates tickets</td>
+<td>Basic web literacy</td>
+<td>Daily during event setup</td>
+</tr>
+<tr>
+<td><strong>Ticket Holder</strong></td>
+<td>End user who receives a ticket link and views/redeems the ticket</td>
+<td>Minimal</td>
+<td>Once per ticket</td>
+</tr>
+<tr>
+<td><strong>Gate Staff</strong></td>
+<td>Person at the venue entrance who validates tickets</td>
+<td>Minimal</td>
+<td>Repeatedly during event</td>
+</tr>
+</tbody>
+</table>
+<h3 id="24-operating-environment">2.4 Operating Environment</h3>
+<ul>
+<li><strong>Client side</strong>: Any modern web browser (Chrome, Firefox, Safari, Edge) on desktop or mobile</li>
+<li><strong>Server side</strong>: Node.js 20+ runtime; runs locally on <code>localhost:3000</code> (frontend) and <code>localhost:4000</code> (backend) for the MVP demo</li>
+<li><strong>Development OS</strong>: macOS, Windows, or Linux</li>
+<li><strong>Network</strong>: Local HTTP (no HTTPS required for MVP)</li>
+</ul>
+<h3 id="25-design-and-implementation-constraints">2.5 Design and Implementation Constraints</h3>
+<ul>
+<li><strong>CON-01</strong>: The system <strong>must</strong> use at least 3 design patterns from the following list: Repository, Factory, Strategy, Observer</li>
+<li><strong>CON-02</strong>: The system <strong>must</strong> follow SOLID principles throughout the codebase</li>
+<li><strong>CON-03</strong>: Code <strong>must</strong> follow Clean Code guidelines: meaningful names, small functions, no duplication</li>
+<li><strong>CON-04</strong>: The data layer <strong>must</strong> be implemented in-memory but architected behind Repository interfaces, such that swapping to a real relational database would require no changes to the service layer</li>
+<li><strong>CON-05</strong>: All business logic <strong>must</strong> be covered by unit tests using Jest</li>
+<li><strong>CON-06</strong>: All source code <strong>must</strong> be managed in Git with feature branches and pull requests</li>
+<li><strong>CON-07</strong>: The project <strong>must</strong> be delivered using Agile/Scrum methodology across 4 sprints</li>
+</ul>
+<h3 id="26-assumptions-and-dependencies">2.6 Assumptions and Dependencies</h3>
+<ul>
+<li><strong>ASM-01</strong>: The administrator is trusted; no authentication is required for the MVP (single-admin assumption)</li>
+<li><strong>ASM-02</strong>: Ticket holders receive the ticket URL out-of-band (manually shared); the system does not send emails</li>
+<li><strong>ASM-03</strong>: The demo environment is a single machine running both frontend and backend locally</li>
+<li><strong>ASM-04</strong>: Only one administrator operates the system at a time (no multi-admin conflicts)</li>
+</ul>
+<hr />
+<h2 id="3-functional-requirements">3. Functional Requirements</h2>
+<h3 id="31-fr-01-create-event">3.1 FR-01: Create Event</h3>
+<p><strong>Priority</strong>: High
+<strong>Description</strong>: The system shall allow an administrator to create a new event by providing the event name, description, venue, date, and total ticket capacity.
+<strong>Input</strong>: Event name (3–100 chars), description (≤500 chars), venue, event date (ISO date, must be in the future), total capacity (≥1), event type (CONCERT | CONFERENCE | SPORTS)
+<strong>Processing</strong>: System validates input, assigns a unique event ID, initializes <code>remainingCapacity</code> equal to <code>totalCapacity</code>, timestamps creation, persists via <code>IEventRepository</code>
+<strong>Output</strong>: Confirmation with the newly created event ID and full event details
+<strong>Error Cases</strong>:
+- E-01.1: Any required field missing → HTTP 400 with validation message
+- E-01.2: Event date in the past → HTTP 400 "Event date must be in the future"
+- E-01.3: Capacity ≤ 0 → HTTP 400 "Capacity must be at least 1"</p>
+<h3 id="32-fr-02-generate-ticket">3.2 FR-02: Generate Ticket</h3>
+<p><strong>Priority</strong>: High
+<strong>Description</strong>: The system shall allow an administrator to generate a new one-time-use ticket for an existing event.
+<strong>Input</strong>: Event ID (UUID)
+<strong>Processing</strong>: System locates the event via <code>IEventRepository</code>; <strong>verifies the event has not expired</strong>; checks remaining capacity; generates a unique ticket code using an <code>ITicketCodeStrategy</code>; creates a ticket with status <code>VALID</code>; decrements remaining capacity; persists via <code>ITicketRepository</code>
+<strong>Output</strong>: The generated ticket including its unique code and redemption URL
+<strong>Error Cases</strong>:
+- E-02.1: Event ID not found → HTTP 404 "Event not found"
+- E-02.2: Event capacity exhausted → HTTP 409 "No tickets remaining for this event"
+- <strong>E-02.3: Event has already ended → HTTP 409 "Event has already ended" (v1.1)</strong></p>
+<h3 id="33-fr-03-list-events">3.3 FR-03: List Events</h3>
+<p><strong>Priority</strong>: Medium
+<strong>Description</strong>: The system shall allow an administrator to view all events with their details and remaining ticket counts.
+<strong>Input</strong>: None
+<strong>Processing</strong>: System fetches all events via <code>IEventRepository.findAll()</code>
+<strong>Output</strong>: Array of events with ID, name, venue, date, total capacity, remaining capacity, and expiry status
+<strong>Error Cases</strong>: None (empty array returned if no events exist)</p>
+<h3 id="34-fr-04-view-ticket">3.4 FR-04: View Ticket</h3>
+<p><strong>Priority</strong>: High
+<strong>Description</strong>: The system shall allow any user with a valid ticket URL to view the ticket's details.
+<strong>Input</strong>: Ticket ID (UUID) in the URL path
+<strong>Processing</strong>: System fetches the ticket via <code>ITicketRepository.findById()</code>; fetches the associated event
+<strong>Output</strong>: Ticket details including event name, venue, date, ticket code, status (VALID / USED / EXPIRED), countdown until event start, and a QR code representation of the ticket code
+<strong>Error Cases</strong>:
+- E-04.1: Ticket ID not found → HTTP 404 "Ticket not found"</p>
+<h3 id="35-fr-05-redeem-ticket">3.5 FR-05: Redeem Ticket</h3>
+<p><strong>Priority</strong>: High
+<strong>Description</strong>: The system shall allow a ticket holder or gate staff to redeem a valid ticket, marking it as used and preventing future redemptions.
+<strong>Input</strong>: Ticket ID (UUID)
+<strong>Processing</strong>: System locates the ticket; verifies the ticket status is <code>VALID</code>; <strong>verifies the associated event has not expired</strong>; updates status to <code>USED</code>; records the redemption timestamp; persists the change
+<strong>Output</strong>: Confirmation that the ticket has been redeemed
+<strong>Error Cases</strong>:
+- E-05.1: Ticket ID not found → HTTP 404 "Ticket not found"
+- E-05.2: Ticket already used → HTTP 409 "This ticket has already been redeemed"
+- <strong>E-05.3: Event has ended → HTTP 409 "Event has ended. This ticket can no longer be redeemed" (v1.1)</strong></p>
+<h3 id="36-fr-06-prevent-overselling">3.6 FR-06: Prevent Overselling</h3>
+<p><strong>Priority</strong>: High
+<strong>Description</strong>: The system shall never allow more tickets to be generated than the event's total capacity.
+<strong>Implementation</strong>: Enforced atomically in <code>TicketService.generateTicket()</code> by checking and decrementing remaining capacity in the same operation, protected by the repository's thread-safe operations.</p>
+<h3 id="37-fr-07-prevent-ticket-reuse">3.7 FR-07: Prevent Ticket Reuse</h3>
+<p><strong>Priority</strong>: High
+<strong>Description</strong>: The system shall guarantee that once a ticket has been redeemed, it cannot be redeemed again.
+<strong>Implementation</strong>: Enforced in <code>TicketService.redeemTicket()</code> by checking the ticket's status before performing the update.</p>
+<h3 id="38-fr-08-enforce-event-expiry-v11">3.8 FR-08: Enforce Event Expiry (v1.1)</h3>
+<p><strong>Priority</strong>: High
+<strong>Description</strong>: The system shall prevent the generation and redemption of tickets for events whose <code>eventDate</code> is in the past. An event becomes "expired" the moment the current time crosses <code>eventDate</code>.
+<strong>Implementation</strong>: A new method <code>Event.isExpired()</code> on the domain entity returns true when <code>eventDate &lt;= Date.now()</code>. Both <code>TicketService.generateTicket</code> and <code>TicketService.redeemTicket</code> call <code>isExpired()</code> before performing their operation and throw <code>ConflictException</code> if the event has expired.
+<strong>UI Behaviour</strong>: The frontend displays a live countdown timer via <code>useCountdown</code> hook, disables the Generate button, and shows an "EXPIRED" state with the <code>Clock</code> icon on the ticket page when the event has ended.
+<strong>Rationale</strong>: Added in Sprint 4 after the team noticed that the previous design allowed ticket generation and redemption on past-dated events, which does not match real-world behavior.</p>
+<h3 id="39-fr-09-list-tickets-for-an-event">3.9 FR-09: List Tickets for an Event</h3>
+<p><strong>Priority</strong>: Medium
+<strong>Description</strong>: The system shall allow an administrator to view all tickets generated for a specific event.
+<strong>Input</strong>: Event ID (UUID)
+<strong>Processing</strong>: <code>TicketService.getTicketsForEvent()</code> calls <code>ITicketRepository.findByEventId()</code>
+<strong>Output</strong>: Array of tickets with id, code, status, created date, and redemption timestamp
+<strong>Error Cases</strong>: None (empty array returned if the event has no tickets)</p>
+<hr />
+<h2 id="4-external-interface-requirements">4. External Interface Requirements</h2>
+<h3 id="41-user-interfaces">4.1 User Interfaces</h3>
+<p>The frontend provides <strong>two primary pages</strong>:</p>
+<p><strong>4.1.1 Admin Dashboard (<code>/admin</code>)</strong>
+- Sidebar navigation (Dashboard, Events, Tickets, Analytics, Settings)
+- Sticky header with breadcrumb and search
+- Four KPI cards: Total Events, Tickets Issued, Valid, Redeemed
+- Bar chart: Tickets per Event (valid vs redeemed)
+- Create event form (left column, sticky)
+- Events list (right column) with capacity bar, countdown, and expandable ticket list per event
+- Each ticket row shows Copy and Open actions (disabled for redeemed tickets)</p>
+<p><strong>4.1.2 Ticket Page (<code>/tickets/[id]</code>)</strong>
+- Animated ticket card with cut-out circles and dashed separators
+- Header: icon (CheckCircle2 / BadgeCheck / Clock) + E-TICKET label + status badge
+- Event name and type
+- Details rows (Venue, Date, Ticket ID, Redeemed at)
+- Live countdown ("Ends in X")
+- QR code with the ticket code displayed below
+- Redeem button (shown only for VALID tickets)
+- 3D tilt effect on mouse hover</p>
+<h3 id="42-software-interfaces">4.2 Software Interfaces</h3>
+<p>The backend exposes a REST API under <code>http://localhost:4000</code> with the following endpoints:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Endpoint</th>
+<th>Description</th>
+<th>Maps to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/events</code></td>
+<td>Create a new event</td>
+<td>FR-01</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/events</code></td>
+<td>List all events</td>
+<td>FR-03</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/events/:id</code></td>
+<td>Get a single event</td>
+<td>FR-03</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/events/:id/tickets</code></td>
+<td>Generate a ticket for an event</td>
+<td>FR-02, FR-06, FR-08</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/events/:id/tickets</code></td>
+<td>List all tickets for an event</td>
+<td>FR-09</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/tickets/:id</code></td>
+<td>View ticket details</td>
+<td>FR-04</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/tickets/:id/redeem</code></td>
+<td>Redeem a ticket</td>
+<td>FR-05, FR-07, FR-08</td>
+</tr>
+</tbody>
+</table>
+<p>All responses are JSON. Interactive API documentation is available at <code>http://localhost:4000/api-docs</code> (Swagger UI).</p>
+<h3 id="43-communications-interfaces">4.3 Communications Interfaces</h3>
+<ul>
+<li>HTTP/1.1 over TCP on localhost</li>
+<li>JSON request/response bodies (<code>Content-Type: application/json</code>)</li>
+<li>CORS enabled between frontend (<code>:3000</code>) and backend (<code>:4000</code>)</li>
+</ul>
+<hr />
+<h2 id="5-non-functional-requirements">5. Non-Functional Requirements</h2>
+<h3 id="51-performance">5.1 Performance</h3>
+<ul>
+<li><strong>NFR-01</strong>: API responses shall complete in under 100ms for any single-entity operation</li>
+<li><strong>NFR-02</strong>: The admin dashboard shall render its initial view in under 1 second on a modern browser</li>
+</ul>
+<h3 id="52-usability">5.2 Usability</h3>
+<ul>
+<li><strong>NFR-03</strong>: The admin shall be able to create an event in no more than 7 form fields and 1 button click</li>
+<li><strong>NFR-04</strong>: The ticket page shall be readable on screens as small as 320px wide (mobile-friendly)</li>
+<li><strong>NFR-05</strong>: Error messages shall be displayed in plain language, not as raw stack traces</li>
+</ul>
+<h3 id="53-maintainability">5.3 Maintainability</h3>
+<ul>
+<li><strong>NFR-06</strong>: The codebase shall achieve ≥70% unit-test coverage on the service layer (actual: 100%)</li>
+<li><strong>NFR-07</strong>: All classes shall adhere to SOLID principles, verifiable by code review</li>
+<li><strong>NFR-08</strong>: No method shall exceed 30 lines of code; no file shall exceed 300 lines</li>
+<li><strong>NFR-09</strong>: The data-access layer shall be replaceable by implementing the repository interfaces without modifying service or controller code</li>
+</ul>
+<h3 id="54-reliability">5.4 Reliability</h3>
+<ul>
+<li><strong>NFR-10</strong>: The system shall guarantee that a ticket can never be redeemed twice</li>
+<li><strong>NFR-11</strong>: The system shall guarantee that the number of generated tickets never exceeds an event's capacity</li>
+<li><strong>NFR-12</strong>: The system shall guarantee that no operations succeed on expired events (v1.1)</li>
+</ul>
+<h3 id="55-portability">5.5 Portability</h3>
+<ul>
+<li><strong>NFR-13</strong>: The system shall run on macOS, Windows, and Linux without code changes</li>
+<li><strong>NFR-14</strong>: The system shall require only Node.js 20+ and npm as host dependencies</li>
+</ul>
+<h3 id="56-testability">5.6 Testability</h3>
+<ul>
+<li><strong>NFR-15</strong>: Every service class shall be unit-testable in isolation by injecting mock repositories</li>
+<li><strong>NFR-16</strong>: The test suite shall run in under 30 seconds (actual: ~3 seconds)</li>
+</ul>
+<hr />
+<h2 id="6-user-stories">6. User Stories</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>User Story</th>
+<th>Priority</th>
+<th>Points</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>US-01</td>
+<td>As an <strong>admin</strong>, I want to <strong>create a new event</strong> with name, venue, date, and capacity, so that I can prepare for ticket sales.</td>
+<td>High</td>
+<td>5</td>
+</tr>
+<tr>
+<td>US-02</td>
+<td>As an <strong>admin</strong>, I want to <strong>see all events I have created</strong>, so that I can manage them from one place.</td>
+<td>Medium</td>
+<td>2</td>
+</tr>
+<tr>
+<td>US-03</td>
+<td>As an <strong>admin</strong>, I want to <strong>generate a new ticket for an event</strong>, so that I can give attendees access to the event.</td>
+<td>High</td>
+<td>5</td>
+</tr>
+<tr>
+<td>US-04</td>
+<td>As an <strong>admin</strong>, I want to <strong>see the remaining capacity of each event</strong>, so that I don't oversell tickets.</td>
+<td>Medium</td>
+<td>3</td>
+</tr>
+<tr>
+<td>US-05</td>
+<td>As a <strong>ticket holder</strong>, I want to <strong>view my ticket details via a unique link</strong>, so that I have proof of my entry.</td>
+<td>High</td>
+<td>3</td>
+</tr>
+<tr>
+<td>US-06</td>
+<td>As a <strong>ticket holder</strong>, I want to <strong>see a QR code of my ticket</strong>, so that I can be scanned quickly at the venue.</td>
+<td>Medium</td>
+<td>2</td>
+</tr>
+<tr>
+<td>US-07</td>
+<td>As a <strong>gate staff / admin</strong>, I want to <strong>redeem a ticket and mark it as used</strong>, so that it cannot be reused.</td>
+<td>High</td>
+<td>5</td>
+</tr>
+<tr>
+<td>US-08</td>
+<td>As a <strong>gate staff</strong>, I want the system to <strong>reject already-used tickets</strong>, so that no one enters twice with the same ticket.</td>
+<td>High</td>
+<td>3</td>
+</tr>
+<tr>
+<td>US-09</td>
+<td>As a <strong>gate staff</strong>, I want the system to <strong>reject invalid ticket IDs</strong>, so that fraudulent attempts are blocked.</td>
+<td>Medium</td>
+<td>2</td>
+</tr>
+<tr>
+<td>US-10</td>
+<td>As a <strong>gate staff</strong>, I want <strong>expired events to reject all operations</strong>, so that tickets can't be generated or redeemed after an event ends.</td>
+<td>High</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total: 33 story points across 4 sprints</strong> (~8 points per sprint average).</p>
+<hr />
+<h2 id="7-use-cases">7. Use Cases</h2>
+<h3 id="uc-01-create-event">UC-01: Create Event</h3>
+<ul>
+<li><strong>Actor</strong>: Administrator</li>
+<li><strong>Precondition</strong>: Admin is on the admin dashboard</li>
+<li><strong>Main Flow</strong>: Admin clicks "Create Event" → fills form → submits → system validates → persists via <code>IEventRepository.save()</code> → displays success</li>
+<li><strong>Alternate Flow A1.1</strong>: Validation fails → inline error messages; no event created</li>
+<li><strong>Postcondition</strong>: New event exists with <code>remainingCapacity === totalCapacity</code></li>
+</ul>
+<h3 id="uc-02-generate-ticket">UC-02: Generate Ticket</h3>
+<ul>
+<li><strong>Actor</strong>: Administrator</li>
+<li><strong>Precondition</strong>: Event exists, has remaining capacity, and has not expired</li>
+<li><strong>Main Flow</strong>: Admin clicks "Generate Ticket" → system checks expiry → system checks capacity → <code>ITicketCodeStrategy</code> generates code → <code>Ticket</code> created with <code>VALID</code> status → capacity decremented → ticket URL returned</li>
+<li><strong>Alternate Flow A2.1</strong>: Event expired → "Event has already ended"</li>
+<li><strong>Alternate Flow A2.2</strong>: Capacity exhausted → "No tickets remaining"</li>
+<li><strong>Postcondition</strong>: Ticket exists in <code>VALID</code> state; event remaining capacity decreased by 1</li>
+</ul>
+<h3 id="uc-03-view-ticket">UC-03: View Ticket</h3>
+<ul>
+<li><strong>Actor</strong>: Ticket Holder</li>
+<li><strong>Precondition</strong>: Ticket holder has a valid URL</li>
+<li><strong>Main Flow</strong>: Opens URL → system fetches ticket and event → displays details + QR + countdown</li>
+<li><strong>Alternate Flow A3.1</strong>: Ticket ID not found → "Ticket not found"</li>
+<li><strong>Postcondition</strong>: Ticket holder sees ticket details; ticket state unchanged</li>
+</ul>
+<h3 id="uc-04-redeem-ticket">UC-04: Redeem Ticket</h3>
+<ul>
+<li><strong>Actor</strong>: Ticket Holder / Gate Staff</li>
+<li><strong>Precondition</strong>: Ticket exists and is VALID, event has not expired</li>
+<li><strong>Main Flow</strong>: User clicks "Redeem Ticket" → system verifies status is VALID → verifies event not expired → marks as USED → records timestamp → displays success</li>
+<li><strong>Alternate Flow A4.1</strong>: Already USED → "This ticket has already been used"</li>
+<li><strong>Alternate Flow A4.2</strong>: Event expired → "Event has ended — ticket expired"</li>
+<li><strong>Alternate Flow A4.3</strong>: Ticket not found → "Ticket not found"</li>
+<li><strong>Postcondition</strong>: Ticket is in <code>USED</code> state and cannot be redeemed again</li>
+</ul>
+<h3 id="uc-05-list-events">UC-05: List Events</h3>
+<ul>
+<li><strong>Actor</strong>: Administrator</li>
+<li><strong>Main Flow</strong>: Admin navigates to dashboard → system fetches all events → renders table with name, date, venue, remaining capacity, expiry status, and actions</li>
+<li><strong>Postcondition</strong>: Admin sees all events and can take actions on non-expired ones</li>
+</ul>
+<hr />
+<h2 id="8-glossary">8. Glossary</h2>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Admin Dashboard</strong></td>
+<td>The web page at <code>/admin</code> used by the administrator</td>
+</tr>
+<tr>
+<td><strong>API</strong></td>
+<td>The REST interface exposed by the NestJS backend</td>
+</tr>
+<tr>
+<td><strong>Capacity</strong></td>
+<td>The total number of tickets that may be issued for an event</td>
+</tr>
+<tr>
+<td><strong>DTO (Data Transfer Object)</strong></td>
+<td>Plain object used to move data between the client and server</td>
+</tr>
+<tr>
+<td><strong>Event</strong></td>
+<td>A real-world happening to which tickets may grant entry</td>
+</tr>
+<tr>
+<td><strong>Expired</strong></td>
+<td>An event past its <code>eventDate</code>; tickets cannot be generated or redeemed</td>
+</tr>
+<tr>
+<td><strong>In-Memory Repository</strong></td>
+<td>A class that stores data in a <code>Map</code> in RAM, conforming to a repository interface</td>
+</tr>
+<tr>
+<td><strong>One-Time Ticket</strong></td>
+<td>A ticket that becomes invalid after its first successful redemption</td>
+</tr>
+<tr>
+<td><strong>QR Code</strong></td>
+<td>A 2D barcode encoding the ticket's unique code for quick visual scanning</td>
+</tr>
+<tr>
+<td><strong>Redemption</strong></td>
+<td>The act of marking a ticket as used</td>
+</tr>
+<tr>
+<td><strong>Repository</strong></td>
+<td>An abstraction over data persistence, hiding storage details from the business layer</td>
+</tr>
+<tr>
+<td><strong>Ticket Code</strong></td>
+<td>The unique alphanumeric identifier generated by an <code>ITicketCodeStrategy</code></td>
+</tr>
+<tr>
+<td><strong>VALID / USED / EXPIRED</strong></td>
+<td>The three possible states of a ticket as perceived by the UI</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><strong>END OF SRS v1.1</strong></p>
+  </div>
+</section>
+
+<section id="architecture" class="part">
+  <div class="part-head">
+    <div class="part-tag">Part 3</div>
+    <div class="part-title">
+      <svg class="ic" xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
+      <h1>Architecture and Design Patterns</h1>
+    </div>
+  </div>
+  <div class="part-body">
+    
+<h2 id="smart-e-ticketing-system">Smart E-Ticketing System</h2>
+<p><strong>Version:</strong> 1.0
+<strong>Prepared by:</strong> [Team Name]
+<strong>Owner:</strong> Mohammed (Developer — formats + presents this in the demo)</p>
+<hr />
+<h2 id="1-architectural-overview">1. Architectural Overview</h2>
+<p>The Smart E-Ticketing System follows a classical <strong>Layered Architecture</strong> (also called N-Tier Architecture), where each layer has a single responsibility and depends only on the layer directly beneath it through <strong>interfaces</strong>. This structure makes the system easy to understand, test, and extend.</p>
+<h3 id="11-the-four-layers">1.1 The Four Layers</h3>
+<pre class="highlight"><code>┌──────────────────────────────────────────────────────────┐
+│  PRESENTATION LAYER  (Next.js frontend)                  │
+│  /admin · /tickets/[id] · React components               │
+│  Talks to backend via HTTP (fetch)                       │
+└──────────────────────────────────────────────────────────┘
+                           ↓ HTTP
+┌──────────────────────────────────────────────────────────┐
+│  CONTROLLER LAYER  (NestJS)                              │
+│  EventController · TicketController                      │
+│  Responsibility: receive HTTP, validate DTOs, call       │
+│  services, return HTTP responses. NO business logic.     │
+└──────────────────────────────────────────────────────────┘
+                           ↓ (method calls)
+┌──────────────────────────────────────────────────────────┐
+│  SERVICE LAYER  (business logic)                         │
+│  EventService · TicketService · EventFactory             │
+│  Responsibility: orchestrate use cases, enforce rules,   │
+│  compose repositories + strategies + factories.          │
+└──────────────────────────────────────────────────────────┘
+                           ↓ (depends on interfaces)
+┌──────────────────────────────────────────────────────────┐
+│  REPOSITORY LAYER  (data access)                         │
+│  IEventRepository ← InMemoryEventRepository              │
+│  ITicketRepository ← InMemoryTicketRepository            │
+│  Responsibility: persist and retrieve domain entities.   │
+│  Services depend on the INTERFACES, not the classes.     │
+└──────────────────────────────────────────────────────────┘
+                           ↓
+┌──────────────────────────────────────────────────────────┐
+│  DOMAIN LAYER  (entities, value objects, enums)          │
+│  Event (abstract), ConcertEvent, ConferenceEvent,        │
+│  SportsEvent, Ticket, TicketStatus, EventType            │
+└──────────────────────────────────────────────────────────┘
+</code></pre>
+
+<h3 id="12-why-layered-architecture-for-this-project">1.2 Why Layered Architecture for this project?</h3>
+<table>
+<thead>
+<tr>
+<th>Benefit</th>
+<th>How the MVP demonstrates it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Separation of concerns</strong></td>
+<td>HTTP handling, business rules, and persistence each live in their own layer</td>
+</tr>
+<tr>
+<td><strong>Testability</strong></td>
+<td>The service layer can be unit-tested in isolation by injecting mock repositories and strategies</td>
+</tr>
+<tr>
+<td><strong>Swappability</strong></td>
+<td>The in-memory repository can be replaced with PostgreSQL by writing a new class — zero service code changes</td>
+</tr>
+<tr>
+<td><strong>Gradability</strong></td>
+<td>Each layer lives in its own folder, so the professor can open <code>src/repository/</code> and see the Repository pattern instantly</td>
+</tr>
+</tbody>
+</table>
+<h3 id="13-project-folder-structure">1.3 Project Folder Structure</h3>
+<pre class="highlight"><code>backend/src/
+├── domain/              Entities and enums
+│   ├── event.entity.ts            (abstract)
+│   ├── concert-event.entity.ts
+│   ├── conference-event.entity.ts
+│   ├── sports-event.entity.ts
+│   ├── ticket.entity.ts
+│   ├── ticket-status.enum.ts
+│   └── event-type.enum.ts
+├── repository/          Repository Pattern
+│   ├── event.repository.interface.ts
+│   ├── ticket.repository.interface.ts
+│   ├── in-memory-event.repository.ts
+│   └── in-memory-ticket.repository.ts
+├── factory/             Factory Pattern
+│   └── event.factory.ts
+├── strategy/            Strategy Pattern
+│   ├── ticket-code-strategy.interface.ts
+│   ├── uuid-code.strategy.ts
+│   ├── short-code.strategy.ts
+│   └── numeric-code.strategy.ts
+├── service/             Business logic
+│   ├── event.service.ts
+│   └── ticket.service.ts
+├── controller/          REST endpoints
+│   ├── event.controller.ts
+│   └── ticket.controller.ts
+├── dto/                 Data Transfer Objects
+│   ├── create-event.dto.ts
+│   ├── event-response.dto.ts
+│   └── ticket-response.dto.ts
+├── app.module.ts        DI wiring
+└── main.ts              Bootstrap + Swagger
+</code></pre>
+
+<p><strong>Notice how the folder names literally match the design pattern names.</strong> This is intentional — when the professor opens the repo, the patterns are visible before they even read a single line of code.</p>
+<hr />
+<h2 id="2-design-patterns">2. Design Patterns</h2>
+<p>The project implements <strong>three core GoF design patterns</strong>, each solving a real, concrete problem in the codebase.</p>
+<hr />
+<h3 id="21-repository-pattern">2.1 ️ Repository Pattern</h3>
+<p><strong>Intent</strong>: <em>"Mediate between the domain and data mapping layers using a collection-like interface for accessing domain objects."</em> — Martin Fowler</p>
+<h4 id="problem-it-solves">Problem it solves</h4>
+<p>Services should focus on business rules, not on how data is stored. If <code>TicketService</code> knew about <code>Map&lt;string, Ticket&gt;</code>, switching to PostgreSQL later would require rewriting every service method.</p>
+<h4 id="implementation">Implementation</h4>
+<p><strong>Step 1 — Interface:</strong></p>
+<pre class="highlight"><code class="language-typescript">// src/repository/ticket.repository.interface.ts
+export const TICKET_REPOSITORY = 'TICKET_REPOSITORY';
+
+export interface ITicketRepository {
+  save(ticket: Ticket): Ticket;
+  findById(id: string): Ticket | null;
+  findByEventId(eventId: string): Ticket[];
+  update(ticket: Ticket): Ticket;
+}
+</code></pre>
+
+<p><strong>Step 2 — In-memory implementation:</strong></p>
+<pre class="highlight"><code class="language-typescript">// src/repository/in-memory-ticket.repository.ts
+@Injectable()
+export class InMemoryTicketRepository implements ITicketRepository {
+  private readonly store = new Map&lt;string, Ticket&gt;();
+
+  save(ticket: Ticket): Ticket {
+    this.store.set(ticket.id, ticket);
+    return ticket;
+  }
+
+  findById(id: string): Ticket | null {
+    return this.store.get(id) ?? null;
+  }
+
+  findByEventId(eventId: string): Ticket[] {
+    return Array.from(this.store.values())
+      .filter(ticket =&gt; ticket.eventId === eventId);
+  }
+
+  update(ticket: Ticket): Ticket {
+    this.store.set(ticket.id, ticket);
+    return ticket;
+  }
+}
+</code></pre>
+
+<p><strong>Step 3 — Service depends on the interface:</strong></p>
+<pre class="highlight"><code class="language-typescript">@Injectable()
+export class TicketService {
+  constructor(
+    @Inject(TICKET_REPOSITORY)
+    private readonly ticketRepository: ITicketRepository,
+  ) {}
+}
+</code></pre>
+
+<p><strong>Step 4 — Module wires the binding:</strong></p>
+<pre class="highlight"><code class="language-typescript">providers: [
+  { provide: TICKET_REPOSITORY, useClass: InMemoryTicketRepository },
+]
+</code></pre>
+
+<h4 id="why-it-satisfies-the-assignment">Why it satisfies the assignment</h4>
+<p>The assignment says: <em>"The database layer should be mocked in-memory via the Repository pattern, but architected as if it were a real relational database."</em> To swap to PostgreSQL we'd write <code>PostgresTicketRepository implements ITicketRepository</code> and change one line. Zero business-logic changes.</p>
+<hr />
+<h3 id="22-factory-pattern">2.2  Factory Pattern</h3>
+<p><strong>Intent</strong>: <em>"Define an interface for creating an object, but let subclasses decide which class to instantiate."</em> — GoF</p>
+<h4 id="problem-it-solves_1">Problem it solves</h4>
+<p>We support three kinds of events — Concerts, Conferences, Sports — each a polymorphic subtype of the abstract <code>Event</code> with its own extra fields (artist, speaker, teams). We need one place that decides which subclass to instantiate based on a DTO, rather than scattering <code>switch</code> blocks across the service layer.</p>
+<h4 id="implementation_1">Implementation</h4>
+<p><strong>Abstract entity:</strong></p>
+<pre class="highlight"><code class="language-typescript">export abstract class Event {
+  constructor(
+    public readonly id: string,
+    public name: string,
+    public description: string,
+    public venue: string,
+    public eventDate: Date,
+    public readonly totalCapacity: number,
+    public remainingCapacity: number,
+    public readonly createdAt: Date = new Date(),
+  ) {}
+
+  decrementCapacity(): void { /* ... */ }
+  hasAvailableCapacity(): boolean { /* ... */ }
+  isExpired(now: Date = new Date()): boolean { /* ... */ }
+  abstract getType(): EventType;
+}
+</code></pre>
+
+<p><strong>Factory:</strong></p>
+<pre class="highlight"><code class="language-typescript">@Injectable()
+export class EventFactory {
+  createEvent(dto: CreateEventDto): Event {
+    const id = randomUUID();
+    const eventDate = new Date(dto.eventDate);
+
+    switch (dto.type) {
+      case EventType.CONCERT:
+        return new ConcertEvent(id, dto.name, /* ... */, dto.artist ?? '');
+      case EventType.CONFERENCE:
+        return new ConferenceEvent(id, dto.name, /* ... */, dto.speaker ?? '');
+      case EventType.SPORTS:
+        return new SportsEvent(id, dto.name, /* ... */, dto.teams ?? '');
+      default:
+        throw new Error(`Unsupported event type: ${dto.type}`);
+    }
+  }
+}
+</code></pre>
+
+<p><strong>Service uses the factory:</strong></p>
+<pre class="highlight"><code class="language-typescript">createEvent(dto: CreateEventDto): Event {
+  const event = this.eventFactory.createEvent(dto);  // ← polymorphic result
+  return this.eventRepository.save(event);
+}
+</code></pre>
+
+<h4 id="why-it-matters">Why it matters</h4>
+<ul>
+<li><strong>SRP</strong>: <code>EventService</code> doesn't know which subclass was created</li>
+<li><strong>OCP</strong>: Adding <code>WorkshopEvent</code> requires a new subclass + one factory case</li>
+<li><strong>Testability</strong>: The factory can be unit-tested in complete isolation</li>
+</ul>
+<hr />
+<h3 id="23-iconcheck-strategy-pattern">2.3 <svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Strategy Pattern</h3>
+<p><strong>Intent</strong>: <em>"Define a family of algorithms, encapsulate each one, and make them interchangeable."</em> — GoF</p>
+<h4 id="problem-it-solves_2">Problem it solves</h4>
+<p>Ticket codes can be generated in many ways: UUIDs, short human-friendly codes, or numeric codes. The algorithm should be <strong>swappable without touching <code>TicketService</code></strong>.</p>
+<h4 id="implementation_2">Implementation</h4>
+<p><strong>Interface (one method):</strong></p>
+<pre class="highlight"><code class="language-typescript">export const TICKET_CODE_STRATEGY = 'TICKET_CODE_STRATEGY';
+
+export interface ITicketCodeStrategy {
+  generate(): string;
+}
+</code></pre>
+
+<p><strong>Three implementations:</strong></p>
+<pre class="highlight"><code class="language-typescript">@Injectable()
+export class UuidCodeStrategy implements ITicketCodeStrategy {
+  generate(): string {
+    return randomUUID();
+  }
+}
+
+@Injectable()
+export class ShortCodeStrategy implements ITicketCodeStrategy {
+  private readonly ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  generate(): string { /* 8 chars with dash → XXXX-XXXX */ }
+}
+
+@Injectable()
+export class NumericCodeStrategy implements ITicketCodeStrategy {
+  generate(): string { /* 6-digit number */ }
+}
+</code></pre>
+
+<p><strong>Service uses the strategy via DI:</strong></p>
+<pre class="highlight"><code class="language-typescript">@Injectable()
+export class TicketService {
+  constructor(
+    @Inject(TICKET_CODE_STRATEGY) private readonly codeStrategy: ITicketCodeStrategy,
+    /* ... */
+  ) {}
+
+  generateTicket(eventId: string): Ticket {
+    /* ... */
+    const code = this.codeStrategy.generate();   // ← Strategy in action
+    /* ... */
+  }
+}
+</code></pre>
+
+<p><strong>Module selects which strategy is active:</strong></p>
+<pre class="highlight"><code class="language-typescript">providers: [
+  { provide: TICKET_CODE_STRATEGY, useClass: ShortCodeStrategy },  // ← swap in one line
+]
+</code></pre>
+
+<h4 id="why-it-matters_1">Why it matters</h4>
+<ul>
+<li><strong>OCP</strong>: Adding a new code-generation algorithm requires a new class, no modifications</li>
+<li><strong>Runtime flexibility</strong>: Different environments can use different strategies</li>
+<li><strong>Testability</strong>: Each strategy tested independently; services mock the strategy in tests</li>
+</ul>
+<hr />
+<h2 id="3-solid-principles-in-action">3. SOLID Principles in Action</h2>
+<h3 id="31-s-single-responsibility-principle">3.1 S — Single Responsibility Principle</h3>
+<p><em>A class should have one reason to change.</em></p>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Reason to change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EventService</code></td>
+<td>Event-related business rules change</td>
+</tr>
+<tr>
+<td><code>TicketService</code></td>
+<td>Ticket-related business rules change</td>
+</tr>
+<tr>
+<td><code>EventFactory</code></td>
+<td>New event type added</td>
+</tr>
+<tr>
+<td><code>InMemoryTicketRepository</code></td>
+<td>Storage mechanism changes</td>
+</tr>
+<tr>
+<td><code>UuidCodeStrategy</code></td>
+<td>UUID generation algorithm changes</td>
+</tr>
+<tr>
+<td><code>EventController</code></td>
+<td>HTTP contract for events changes</td>
+</tr>
+</tbody>
+</table>
+<h3 id="32-o-openclosed-principle">3.2 O — Open/Closed Principle</h3>
+<p><em>Open for extension, closed for modification.</em></p>
+<p><strong>Concrete example</strong>: Adding <code>WorkshopEvent</code> requires:
+- <svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Creating a new <code>WorkshopEvent</code> subclass (extension)
+- <svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Adding one case in <code>EventFactory</code> (minimal addition)</p>
+<p>Zero changes to <code>EventService</code>, <code>EventController</code>, <code>IEventRepository</code>, or any tests.</p>
+<h3 id="33-l-liskov-substitution-principle">3.3 L — Liskov Substitution Principle</h3>
+<p><em>Subtypes must be substitutable for their base types.</em></p>
+<p><code>ConcertEvent</code>, <code>ConferenceEvent</code>, and <code>SportsEvent</code> can all be used anywhere <code>Event</code> is expected. The repository operates on <code>Event</code> generically:</p>
+<pre class="highlight"><code class="language-typescript">save(event: Event): Event {
+  this.store.set(event.id, event);
+  return event;
+}
+</code></pre>
+
+<h3 id="34-i-interface-segregation-principle">3.4 I — Interface Segregation Principle</h3>
+<p><em>Clients should not depend on methods they don't use.</em></p>
+<p>We split data access into <strong>two narrow interfaces</strong> — <code>IEventRepository</code> and <code>ITicketRepository</code> — rather than one fat <code>IRepository</code>. Similarly, <code>ITicketCodeStrategy</code> has exactly one method.</p>
+<h3 id="35-d-dependency-inversion-principle">3.5 D — Dependency Inversion Principle</h3>
+<p><em>High-level modules should not depend on low-level modules. Both should depend on abstractions.</em></p>
+<p>This is the principle the whole architecture is built on:</p>
+<pre class="highlight"><code>TicketService (high-level)
+    ↓ depends on
+ITicketRepository (abstraction)
+    ↑ implemented by
+InMemoryTicketRepository (low-level)
+</code></pre>
+
+<p><strong>Proof</strong>: </p>
+<pre class="highlight"><code class="language-bash">$ grep -r &quot;InMemory&quot; backend/src/service/
+# (no results — DIP verified)
+</code></pre>
+
+<hr />
+<h2 id="4-clean-code-principles-applied">4. Clean Code Principles Applied</h2>
+<table>
+<thead>
+<tr>
+<th>Principle</th>
+<th>Applied by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Meaningful names</strong></td>
+<td><code>generateTicket</code> not <code>genTkt</code>; <code>hasAvailableCapacity</code> not <code>check</code></td>
+</tr>
+<tr>
+<td><strong>Small functions</strong></td>
+<td>No method &gt; 30 lines</td>
+</tr>
+<tr>
+<td><strong>One level of abstraction per function</strong></td>
+<td>Services don't mix "call repository" with "format HTTP response"</td>
+</tr>
+<tr>
+<td><strong>No magic numbers</strong></td>
+<td><code>SHORT_CODE_LENGTH</code>, <code>ALPHABET</code> as named constants</td>
+</tr>
+<tr>
+<td><strong>No duplication</strong></td>
+<td>Repository logic reused via the interface contract</td>
+</tr>
+<tr>
+<td><strong>Fail fast</strong></td>
+<td>Input validation via DTOs + <code>class-validator</code> at the controller boundary</td>
+</tr>
+<tr>
+<td><strong>Comments only where necessary</strong></td>
+<td>Code is self-documenting</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5-summary-what-the-professor-sees">5. Summary — What the Professor Sees</h2>
+<table>
+<thead>
+<tr>
+<th>Rubric section</th>
+<th>Where to point</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Repository Pattern</strong></td>
+<td><code>src/repository/</code> — interface + implementation side by side</td>
+</tr>
+<tr>
+<td><strong>Factory Pattern</strong></td>
+<td><code>src/factory/event.factory.ts</code> — one class, polymorphic creation</td>
+</tr>
+<tr>
+<td><strong>Strategy Pattern</strong></td>
+<td><code>src/strategy/</code> — one interface, three implementations</td>
+</tr>
+<tr>
+<td><strong>SRP</strong></td>
+<td>Any single file — one reason to change</td>
+</tr>
+<tr>
+<td><strong>OCP</strong></td>
+<td>Imagine adding <code>WorkshopEvent</code> — only the factory case changes</td>
+</tr>
+<tr>
+<td><strong>LSP</strong></td>
+<td>Repository stores <code>Event</code> generically</td>
+</tr>
+<tr>
+<td><strong>ISP</strong></td>
+<td>Two narrow repository interfaces instead of one fat one</td>
+</tr>
+<tr>
+<td><strong>DIP</strong></td>
+<td><code>grep InMemory src/service/</code> returns nothing</td>
+</tr>
+<tr>
+<td><strong>Clean Code</strong></td>
+<td>No method &gt; 30 lines, meaningful names, no magic numbers</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><strong>END OF Architecture &amp; Design Patterns Document v1.0</strong></p>
+  </div>
+</section>
+
+<section id="testing" class="part">
+  <div class="part-head">
+    <div class="part-tag">Part 4</div>
+    <div class="part-title">
+      <svg class="ic" xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/></svg>
+      <h1>Test Cases and Quality Assurance</h1>
+    </div>
+  </div>
+  <div class="part-body">
+    
+<h2 id="smart-e-ticketing-system">Smart E-Ticketing System</h2>
+<p><strong>Version:</strong> 1.1
+<strong>Prepared by:</strong> Seif (QA / Test Engineer)
+<strong>Reviewed by:</strong> Mahmoud (Product Owner &amp; Scrum Master)
+<strong>Last updated:</strong> Sprint 4 — final delivery</p>
+<hr />
+<h2 id="1-purpose">1. Purpose</h2>
+<p>This document describes the human-readable test cases for the Smart E-Ticketing System, each mapped to an automated Jest unit test. It is used by the QA engineer during sprint reviews, by the team during the final demo, and by the supervising doctor to verify the <strong>Testing (10%)</strong> rubric criterion.</p>
+<h2 id="2-test-strategy">2. Test Strategy</h2>
+<p>A <strong>two-level testing approach</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Tool</th>
+<th>Target</th>
+<th>Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Unit tests</strong></td>
+<td>Jest + NestJS Testing utilities</td>
+<td>Services, repositories, domain entities, factory, strategies</td>
+<td>46</td>
+</tr>
+<tr>
+<td><strong>Manual tests</strong></td>
+<td>Browser + Swagger UI</td>
+<td>End-to-end user flows</td>
+<td>15</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Coverage targets vs actual</strong></p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Target</th>
+<th>Actual</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Repositories</td>
+<td>100%</td>
+<td><strong>100%</strong> <svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></td>
+</tr>
+<tr>
+<td>Domain entities</td>
+<td>100%</td>
+<td><strong>100%</strong> <svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></td>
+</tr>
+<tr>
+<td>Strategies</td>
+<td>100%</td>
+<td><strong>100%</strong> <svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></td>
+</tr>
+<tr>
+<td>Factory</td>
+<td>100%</td>
+<td><strong>100%</strong> <svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></td>
+</tr>
+<tr>
+<td>Services</td>
+<td>≥ 70%</td>
+<td><strong>≥ 80%</strong> <svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></td>
+</tr>
+<tr>
+<td>Overall (excl. main.ts, modules, DTOs, enums, interfaces)</td>
+<td>≥ 70%</td>
+<td><strong>≥ 83%</strong> <svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></td>
+</tr>
+</tbody>
+</table>
+<p>Every service test injects a mock repository — the act of mocking <em>itself proves</em> that Dependency Inversion is wired correctly (services depend on the interface, not the in-memory class).</p>
+<h2 id="3-test-environment">3. Test Environment</h2>
+<table>
+<thead>
+<tr>
+<th>Environment</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Live frontend</strong></td>
+<td>https://smart-e-ticket.vercel.app</td>
+</tr>
+<tr>
+<td><strong>Live backend (Docker on Railway)</strong></td>
+<td>https://smart-eticketing-backend-production-0222.up.railway.app</td>
+</tr>
+<tr>
+<td><strong>Live Swagger UI</strong></td>
+<td>https://smart-eticketing-backend-production-0222.up.railway.app/api-docs</td>
+</tr>
+<tr>
+<td><strong>Local frontend</strong></td>
+<td>http://localhost:3000</td>
+</tr>
+<tr>
+<td><strong>Local backend</strong></td>
+<td>http://localhost:4000</td>
+</tr>
+<tr>
+<td><strong>Local Swagger UI</strong></td>
+<td>http://localhost:4000/api-docs</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Node.js</td>
+<td>20+</td>
+</tr>
+<tr>
+<td>npm</td>
+<td>10+</td>
+</tr>
+<tr>
+<td>Browser</td>
+<td>Chrome / Firefox / Safari latest</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-how-to-run-the-automated-tests">4. How to Run the Automated Tests</h2>
+<h3 id="locally">Locally</h3>
+<pre class="highlight"><code class="language-bash">cd backend
+npm install              # one-time dependency install
+npm test                 # run all 46 tests (~4 sec)
+npm run test:cov         # with coverage report → backend/coverage/lcov-report/index.html
+</code></pre>
+
+<p>Expected output:</p>
+<pre class="highlight"><code>Test Suites: 8 passed, 8 total
+Tests:       46 passed, 46 total
+</code></pre>
+
+<h3 id="continuously-ci">Continuously (CI)</h3>
+<p>The same suite runs on <strong>every push and every pull request</strong> in <a href="https://github.com/MahmoudSayed0/Smart-E-ticket-PR/actions/workflows/ci.yml">GitHub Actions</a>. The README badge at the top of the project shows the latest run status. Coverage artefacts are attached to each workflow run and retained for 14 days.</p>
+<h2 id="5-test-case-catalogue">5. Test Case Catalogue</h2>
+<h3 id="51-domain-entity-tests">5.1 Domain Entity Tests</h3>
+<table>
+<thead>
+<tr>
+<th>Test ID</th>
+<th>Feature</th>
+<th>Description</th>
+<th>Expected Result</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TC-D-01</td>
+<td>Ticket entity</td>
+<td>A newly created ticket is in VALID state</td>
+<td><code>ticket.status === 'VALID'</code> and <code>redeemedAt</code> is null</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-D-02</td>
+<td>Ticket entity</td>
+<td>Marking a ticket as used sets status to USED and records timestamp</td>
+<td><code>ticket.status === 'USED'</code> and <code>redeemedAt</code> is a Date</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-D-03</td>
+<td>Ticket entity</td>
+<td>Cannot mark an already-used ticket as used again</td>
+<td>Throws <code>Cannot redeem a ticket that is not in VALID state</code></td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-D-04</td>
+<td>Event entity</td>
+<td>A newly created event has <code>remainingCapacity === totalCapacity</code></td>
+<td>Both capacity values are equal</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-D-05</td>
+<td>Event entity</td>
+<td><code>getType()</code> returns the correct EventType for each subclass</td>
+<td>Concert → <code>CONCERT</code>, Conference → <code>CONFERENCE</code>, Sports → <code>SPORTS</code></td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-D-06</td>
+<td>Event entity</td>
+<td><code>decrementCapacity()</code> reduces remaining by 1</td>
+<td><code>remainingCapacity</code> is <code>capacity - 1</code></td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-D-07</td>
+<td>Event entity</td>
+<td><code>hasAvailableCapacity()</code> returns true/false correctly</td>
+<td>True when remaining &gt; 0, false when remaining = 0</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-D-08</td>
+<td>Event entity</td>
+<td>Cannot decrement below zero</td>
+<td>Throws <code>Cannot decrement capacity: no tickets remaining</code></td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-D-09</td>
+<td>Event entity</td>
+<td><code>isExpired()</code> returns false for future event</td>
+<td>Returns false</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-D-10</td>
+<td>Event entity</td>
+<td><code>isExpired()</code> returns true for past event</td>
+<td>Returns true</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-D-11</td>
+<td>Event entity</td>
+<td><code>isExpired(now)</code> accepts an injected time</td>
+<td>Returns false at t−1s, true at t+1s</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+</tbody>
+</table>
+<h3 id="52-repository-pattern-tests">5.2 Repository Pattern Tests</h3>
+<table>
+<thead>
+<tr>
+<th>Test ID</th>
+<th>Feature</th>
+<th>Description</th>
+<th>Expected Result</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TC-R-01</td>
+<td>Event repository</td>
+<td><code>save(event)</code> stores it and <code>findById(id)</code> returns it</td>
+<td>Retrieved event is identical</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-R-02</td>
+<td>Event repository</td>
+<td><code>findById</code> returns null for unknown id</td>
+<td>Returns <code>null</code></td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-R-03</td>
+<td>Event repository</td>
+<td><code>findAll</code> returns all stored events</td>
+<td>Returns array of all events</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-R-04</td>
+<td>Event repository</td>
+<td><code>findAll</code> returns empty array when no events exist</td>
+<td>Returns <code>[]</code></td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-R-05</td>
+<td>Event repository</td>
+<td><code>update(event)</code> persists the new state</td>
+<td>Retrieved event reflects the update</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-R-06</td>
+<td>Ticket repository</td>
+<td><code>save(ticket)</code> stores it and <code>findById(id)</code> returns it</td>
+<td>Retrieved ticket is identical</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-R-07</td>
+<td>Ticket repository</td>
+<td><code>findById</code> returns null for unknown id</td>
+<td>Returns <code>null</code></td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-R-08</td>
+<td>Ticket repository</td>
+<td><code>findByEventId</code> returns only tickets for that event</td>
+<td>Correctly filtered array</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-R-09</td>
+<td>Ticket repository</td>
+<td><code>update(ticket)</code> persists the new status</td>
+<td>Retrieved ticket status is USED</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+</tbody>
+</table>
+<h3 id="53-factory-pattern-tests">5.3 Factory Pattern Tests</h3>
+<table>
+<thead>
+<tr>
+<th>Test ID</th>
+<th>Feature</th>
+<th>Description</th>
+<th>Expected Result</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TC-F-01</td>
+<td>EventFactory</td>
+<td>Creates <code>ConcertEvent</code> when type is <code>CONCERT</code></td>
+<td><code>instanceof ConcertEvent</code> is true</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-F-02</td>
+<td>EventFactory</td>
+<td>Creates <code>ConferenceEvent</code> when type is <code>CONFERENCE</code></td>
+<td><code>instanceof ConferenceEvent</code> is true</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-F-03</td>
+<td>EventFactory</td>
+<td>Creates <code>SportsEvent</code> when type is <code>SPORTS</code></td>
+<td><code>instanceof SportsEvent</code> is true</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-F-04</td>
+<td>EventFactory</td>
+<td>Initializes <code>remainingCapacity === totalCapacity</code></td>
+<td>Values are equal</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-F-05</td>
+<td>EventFactory</td>
+<td>Each created event has a unique id</td>
+<td>UUIDs differ across invocations</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+</tbody>
+</table>
+<h3 id="54-strategy-pattern-tests">5.4 Strategy Pattern Tests</h3>
+<table>
+<thead>
+<tr>
+<th>Test ID</th>
+<th>Feature</th>
+<th>Description</th>
+<th>Expected Result</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TC-S-01</td>
+<td>UuidCodeStrategy</td>
+<td>Generates a valid UUID v4</td>
+<td>Matches UUID v4 regex</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-S-02</td>
+<td>UuidCodeStrategy</td>
+<td>Generates a unique value on each call</td>
+<td>Two consecutive calls return different strings</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-S-03</td>
+<td>ShortCodeStrategy</td>
+<td>Generates <code>XXXX-XXXX</code> format</td>
+<td>Matches <code>/^[A-Z2-9]{4}-[A-Z2-9]{4}$/</code></td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-S-04</td>
+<td>ShortCodeStrategy</td>
+<td>Produces diverse codes</td>
+<td>20 consecutive codes → ≥16 unique</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-S-05</td>
+<td>NumericCodeStrategy</td>
+<td>Generates a 6-digit numeric code</td>
+<td>Matches <code>/^\d{6}$/</code></td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+</tbody>
+</table>
+<h3 id="55-service-layer-tests">5.5 Service Layer Tests</h3>
+<table>
+<thead>
+<tr>
+<th>Test ID</th>
+<th>Feature</th>
+<th>Description</th>
+<th>Expected Result</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TC-SV-01</td>
+<td>EventService</td>
+<td><code>createEvent</code> creates and saves a valid event</td>
+<td>Event is instance of correct subclass, <code>repo.save</code> called</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-SV-02</td>
+<td>EventService</td>
+<td>Rejects an event with a past <code>eventDate</code></td>
+<td>Throws <code>BadRequestException</code>, <code>repo.save</code> not called</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-SV-03</td>
+<td>EventService</td>
+<td><code>getAllEvents</code> returns all events from repo</td>
+<td>Returns the mocked array</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-SV-04</td>
+<td>EventService</td>
+<td><code>getEventById</code> returns the event</td>
+<td>Returns the mocked event</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-SV-05</td>
+<td>EventService</td>
+<td><code>getEventById</code> throws when not found</td>
+<td>Throws <code>NotFoundException</code></td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-SV-06</td>
+<td>TicketService</td>
+<td>Creates a VALID ticket using the injected strategy</td>
+<td>Status <code>VALID</code>, code is strategy output</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-SV-07</td>
+<td>TicketService</td>
+<td>Decrements event capacity and persists both entities</td>
+<td><code>remainingCapacity - 1</code>, both repos called</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-SV-08</td>
+<td>TicketService</td>
+<td>Throws when event does not exist</td>
+<td><code>NotFoundException</code></td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-SV-09</td>
+<td>TicketService</td>
+<td>Throws when event has no remaining capacity</td>
+<td><code>ConflictException</code>, no save</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-SV-10</td>
+<td>TicketService</td>
+<td><strong>Throws when event has already ended (expired)</strong></td>
+<td><code>ConflictException</code>, message "Event has already ended"</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-SV-11</td>
+<td>TicketService</td>
+<td><code>getTicketById</code> returns the ticket</td>
+<td>Returns the mocked ticket</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-SV-12</td>
+<td>TicketService</td>
+<td><code>getTicketById</code> throws when not found</td>
+<td><code>NotFoundException</code></td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-SV-13</td>
+<td>TicketService</td>
+<td>Redeems a VALID ticket</td>
+<td>Status becomes <code>USED</code>, <code>redeemedAt</code> set</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-SV-14</td>
+<td>TicketService</td>
+<td>Throws when ticket is already USED</td>
+<td><code>ConflictException</code></td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-SV-15</td>
+<td>TicketService</td>
+<td>Throws when ticket does not exist</td>
+<td><code>NotFoundException</code></td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+<tr>
+<td>TC-SV-16</td>
+<td>TicketService</td>
+<td><strong>Throws when the event has already ended</strong></td>
+<td><code>ConflictException</code>, message "Event has ended"</td>
+<td><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass</td>
+</tr>
+</tbody>
+</table>
+<h2 id="6-manual-end-to-end-test-cases">6. Manual End-to-End Test Cases</h2>
+<p>These tests are executed manually through the browser during the demo and during sprint reviews.</p>
+<table>
+<thead>
+<tr>
+<th>Test ID</th>
+<th>Feature</th>
+<th>Steps</th>
+<th>Expected Result</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TC-M-01</td>
+<td>Event creation</td>
+<td>1. Open <code>/admin</code> 2. Fill form 3. Click Create</td>
+<td>Event appears in list, capacity bar shows 0% used</td>
+<td></td>
+</tr>
+<tr>
+<td>TC-M-02</td>
+<td>Form validation</td>
+<td>1. Open <code>/admin</code> 2. Fill form with past date 3. Click Create</td>
+<td>Error banner: "Event date must be in the future"</td>
+<td></td>
+</tr>
+<tr>
+<td>TC-M-03</td>
+<td>Capacity validation</td>
+<td>1. Fill form with capacity <code>0</code> 2. Click Create</td>
+<td>Inline validation error</td>
+<td></td>
+</tr>
+<tr>
+<td>TC-M-04</td>
+<td>Ticket generation</td>
+<td>1. Click Generate on an event</td>
+<td>New ticket appears in the event's ticket list with "New" badge</td>
+<td></td>
+</tr>
+<tr>
+<td>TC-M-05</td>
+<td>Ticket URL copy</td>
+<td>1. Click "Copy" on a valid ticket</td>
+<td>Clipboard contains <code>http://localhost:3000/tickets/&lt;id&gt;</code>, button shows "Copied"</td>
+<td></td>
+</tr>
+<tr>
+<td>TC-M-06</td>
+<td>Open ticket page</td>
+<td>1. Click "Open" on a valid ticket</td>
+<td>New tab opens with ticket detail page, QR code visible, status VALID</td>
+<td></td>
+</tr>
+<tr>
+<td>TC-M-07</td>
+<td>Countdown display</td>
+<td>1. Open a ticket page for a future event</td>
+<td>"Ends in" countdown ticks every second</td>
+<td></td>
+</tr>
+<tr>
+<td>TC-M-08</td>
+<td>Ticket redemption</td>
+<td>1. Open a VALID ticket 2. Click Redeem</td>
+<td>Status flips to USED, BadgeCheck icon, "Ticket redeemed" title</td>
+<td></td>
+</tr>
+<tr>
+<td>TC-M-09</td>
+<td>Prevent double redemption</td>
+<td>1. Redeem a ticket 2. Refresh the page</td>
+<td>Redeem button is gone, USED state shown, API returns 409 if called</td>
+<td></td>
+</tr>
+<tr>
+<td>TC-M-10</td>
+<td>Admin sees redeemed tickets</td>
+<td>1. Return to <code>/admin</code> after redeeming</td>
+<td>The redeemed ticket shows struck-through code + "Redeemed" label, no Copy/Open buttons</td>
+<td></td>
+</tr>
+<tr>
+<td>TC-M-11</td>
+<td>Capacity decrements</td>
+<td>1. Generate 3 tickets for a 5-capacity event</td>
+<td>Capacity bar shows 60% used, <code>2/5</code> remaining</td>
+<td></td>
+</tr>
+<tr>
+<td>TC-M-12</td>
+<td>Prevent overselling</td>
+<td>1. Generate tickets until capacity is exhausted 2. Try to generate one more</td>
+<td>Generate button disabled, backend returns 409 "No tickets remaining"</td>
+<td></td>
+</tr>
+<tr>
+<td>TC-M-13</td>
+<td><strong>Expired event: cannot generate</strong></td>
+<td>1. Create event with <code>eventDate</code> 2 min from now 2. Wait until past that time 3. Click Generate</td>
+<td>Button disabled, backend returns 409 "Event has already ended"</td>
+<td></td>
+</tr>
+<tr>
+<td>TC-M-14</td>
+<td><strong>Expired event: cannot redeem</strong></td>
+<td>1. Generate ticket on an event 2. Let event expire 3. Open ticket → click Redeem</td>
+<td>Ticket page shows "Expired" badge with Clock icon, Redeem button replaced with red error banner</td>
+<td></td>
+</tr>
+<tr>
+<td>TC-M-15</td>
+<td>Live expiry</td>
+<td>1. Open ticket page for an event 2 min away 2. Watch until countdown hits zero</td>
+<td>Status auto-transitions to EXPIRED without page refresh</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-how-to-execute-manual-tests">7. How to Execute Manual Tests</h2>
+<p><strong>Before starting</strong>, make sure both servers are running:</p>
+<pre class="highlight"><code class="language-bash"># Terminal 1
+cd backend &amp;&amp; npm run start:dev
+
+# Terminal 2
+cd frontend &amp;&amp; npm run dev
+</code></pre>
+
+<p>Then open Chrome and walk through each TC-M-* case, filling the Status column with <svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pass or  Fail.</p>
+<h2 id="8-defect-log">8. Defect Log</h2>
+<p>Any failing test during manual execution should be recorded here:</p>
+<table>
+<thead>
+<tr>
+<th>Defect ID</th>
+<th>Test ID</th>
+<th>Description</th>
+<th>Severity</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>(none)</em></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="9-sign-off">9. Sign-off</h2>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Name</th>
+<th>Date</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>QA / Test Engineer</td>
+<td>Seif</td>
+<td><strong><em>_</em></strong>___</td>
+<td><strong><em>_</em></strong>___</td>
+</tr>
+<tr>
+<td>Backend Developer</td>
+<td>Ali</td>
+<td><strong><em>_</em></strong>___</td>
+<td><strong><em>_</em></strong>___</td>
+</tr>
+<tr>
+<td>Software Engineer</td>
+<td>Mohammed</td>
+<td><strong><em>_</em></strong>___</td>
+<td><strong><em>_</em></strong>___</td>
+</tr>
+<tr>
+<td>Product Owner &amp; Scrum Master</td>
+<td>Mahmoud</td>
+<td><strong><em>_</em></strong>___</td>
+<td><strong><em>_</em></strong>___</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="10-delivery-checklist">10. Delivery Checklist</h2>
+<p>For the supervising doctor to verify each item:</p>
+<ul>
+<li>[ ] <strong>Source-code repo:</strong> https://github.com/MahmoudSayed0/Smart-E-ticket-PR</li>
+<li>[ ] <strong>CI badge</strong> on the README is green (latest workflow run passed all 46 tests)</li>
+<li>[ ] <code>cd backend &amp;&amp; npm install &amp;&amp; npm test</code> produces <code>Tests: 46 passed</code></li>
+<li>[ ] <code>npm run test:cov</code> produces a coverage report with the percentages in section 2 above</li>
+<li>[ ] Live frontend reachable at https://smart-e-ticket.vercel.app</li>
+<li>[ ] Live backend reachable at https://smart-eticketing-backend-production-0222.up.railway.app/api-docs</li>
+<li>[ ] Manual test cases TC-M-01 → TC-M-15 executed against either local or live system</li>
+</ul>
+<hr />
+<p><strong>END OF TEST CASES DOCUMENT v1.1 — Final delivery copy</strong></p>
+<p><em>Supervised by Dr. Ihab Ramadan · Software Engineering · 2026</em></p>
+  </div>
+</section>
+
+<section id="delivery" class="part">
+  <div class="part-head">
+    <div class="part-tag">Part 5</div>
+    <div class="part-title">
+      <svg class="ic" xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/></svg>
+      <h1>Delivery Index</h1>
+    </div>
+  </div>
+  <div class="part-body">
+    
+<p><strong>Course:</strong> Software Engineering · 2026
+<strong>Supervisor:</strong> Dr. Ihab Ramadan
+<strong>Team:</strong> Mahmoud · Mohammed · Esraa · Ali · Amr · Seif</p>
+<hr />
+<h2 id="how-to-use-this-document">How to use this document</h2>
+<p>This is the <strong>single index</strong> of everything the team is delivering. It maps each rubric item to the file or live system that satisfies it, so the supervising doctor can verify all 100% of the rubric in one sweep.</p>
+<hr />
+<h2 id="1-live-system-verify-first">1. Live System (verify first)</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>URL</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Frontend dashboard</strong></td>
+<td><a href="https://smart-e-ticket.vercel.app">smart-e-ticket.vercel.app</a></td>
+<td>Click <em>Admin Dashboard</em>, create an event, generate a ticket, copy URL, redeem it</td>
+</tr>
+<tr>
+<td><strong>Backend API + Swagger</strong></td>
+<td><a href="https://smart-eticketing-backend-production-0222.up.railway.app/api-docs">Swagger UI</a></td>
+<td>Browse all endpoints, try them in-place</td>
+</tr>
+<tr>
+<td><strong>Source code on GitHub</strong></td>
+<td><a href="https://github.com/MahmoudSayed0/Smart-E-ticket-PR">MahmoudSayed0/Smart-E-ticket-PR</a></td>
+<td>Read the code, the README, the docs, and the green CI badge</td>
+</tr>
+<tr>
+<td><strong>CI history</strong></td>
+<td><a href="https://github.com/MahmoudSayed0/Smart-E-ticket-PR/actions/workflows/ci.yml">GitHub Actions runs</a></td>
+<td>Confirm every push has passed all 46 tests</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><svg class="ic" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <strong>Cold start:</strong> Railway free tier sleeps the backend after 15 min idle. Wake it by hitting the Swagger URL once before testing the frontend.</p>
+</blockquote>
+<hr />
+<h2 id="2-documentation-deliverables">2. Documentation deliverables</h2>
+<p>All documents below are inside the <code>docs/</code> folder of the repository.</p>
+<table>
+<thead>
+<tr>
+<th>Rubric item</th>
+<th>Weight</th>
+<th>Document</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SRS &amp; Requirements</strong></td>
+<td>20%</td>
+<td><a href="SRS.md">SRS.md</a></td>
+<td>Functional + non-functional requirements, 9 user stories, 5 use cases, acceptance criteria</td>
+</tr>
+<tr>
+<td><strong>UML Diagrams</strong></td>
+<td>15%</td>
+<td><a href="uml/"><code>uml/</code></a></td>
+<td>5 PlantUML diagrams (use-case, class, generate-ticket sequence, redeem-ticket sequence, activity/lifecycle) — both <code>.puml</code> source and rendered <code>.png</code></td>
+</tr>
+<tr>
+<td><strong>Architecture &amp; Design Patterns</strong></td>
+<td>20%</td>
+<td><a href="ARCHITECTURE.md">ARCHITECTURE.md</a></td>
+<td>Layered architecture rationale + Repository / Factory / Strategy patterns explained with code citations</td>
+</tr>
+<tr>
+<td><strong>Clean Code (SOLID)</strong></td>
+<td>15%</td>
+<td><a href="ARCHITECTURE.md">ARCHITECTURE.md § SOLID</a> + the source itself</td>
+<td>One concrete example per letter; <code>grep -r 'Sqlite\|InMemory' backend/src/service/</code> returns 0 (live DIP proof)</td>
+</tr>
+<tr>
+<td><strong>Testing</strong></td>
+<td>10%</td>
+<td><a href="TEST_CASES.md">TEST_CASES.md</a></td>
+<td>46 unit tests + 15 manual cases · 100% on repositories · ≥ 80% on services</td>
+</tr>
+<tr>
+<td><strong>Agile Process</strong></td>
+<td>10%</td>
+<td><a href="https://www.notion.so/33f8db03ec9e81d7a1b6f9462c926791">Notion workspace</a> (read-only)</td>
+<td>4 sprints, retrospectives, Jira-style backlog with 5 Epics / 9 Stories / 36 Tasks</td>
+</tr>
+<tr>
+<td><strong>Presentation</strong></td>
+<td>10%</td>
+<td><a href="presentation/deck.html"><code>presentation/deck.html</code></a> + <a href="presentation/study-guide.html"><code>presentation/study-guide.html</code></a></td>
+<td>The slide deck used on demo day, plus the team's internal study guide</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-bonus-deliverables-beyond-rubric">3. Bonus deliverables (beyond rubric)</h2>
+<table>
+<thead>
+<tr>
+<th>Bonus</th>
+<th>What it is</th>
+<th>Where</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CI / CD</strong></td>
+<td>GitHub Actions workflow runs lint + tests + build on every push and PR</td>
+<td><a href="../.github/workflows/ci.yml"><code>.github/workflows/ci.yml</code></a> · <a href="https://github.com/MahmoudSayed0/Smart-E-ticket-PR/actions/workflows/ci.yml">Live runs</a></td>
+</tr>
+<tr>
+<td><strong>Docker</strong></td>
+<td>Single-stage container, Node 22, build tools for native bindings, ships to any container host unchanged</td>
+<td><a href="../backend/Dockerfile"><code>backend/Dockerfile</code></a> · <code>docker build -t eticketing ./backend</code></td>
+</tr>
+<tr>
+<td><strong>Live deployment</strong></td>
+<td>Frontend on Vercel + Backend (Docker) on Railway with SQLite repository binding via <code>DB_DRIVER=sqlite</code></td>
+<td>URLs in section 1 above</td>
+</tr>
+<tr>
+<td><strong>Pluggable storage</strong></td>
+<td>Same code, two storage backends, chosen at boot from one env var. Demonstrates the Repository pattern delivering on its promise live in production.</td>
+<td><a href="../backend/src/repository/"><code>backend/src/repository/</code></a> — <code>InMemory*</code> + <code>Sqlite*</code> siblings of the same interfaces</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-source-code-structure">4. Source-code structure</h2>
+<pre class="highlight"><code>Smart-E-ticket-PR/
+├── README.md                       project overview, badges, setup
+├── docs/
+│   ├── SRS.md                      ← rubric: SRS &amp; Requirements
+│   ├── ARCHITECTURE.md             ← rubric: Architecture &amp; Patterns + Clean Code
+│   ├── TEST_CASES.md               ← rubric: Testing
+│   ├── DEMO_SCRIPT.md              click-by-click demo walkthrough
+│   ├── PRESENTATION.md             slide outline (legacy)
+│   ├── DELIVERABLES.md             this file
+│   ├── uml/                        ← rubric: UML Diagrams (5 .puml + 5 .png)
+│   └── presentation/
+│       ├── deck.html               ← rubric: Presentation
+│       ├── deck-stage.js           reusable web-component for navigation
+│       ├── study-guide.html        team study guide (Q&amp;A + roles)
+│       └── img/                    UML PNGs + ticket banners used in slides
+├── backend/                        NestJS backend (port 4000)
+│   ├── Dockerfile                  ← bonus: Docker
+│   ├── src/
+│   │   ├── domain/                 Entities + enums
+│   │   ├── repository/             Interfaces + InMemory + Sqlite implementations
+│   │   ├── factory/                EventFactory
+│   │   ├── strategy/               Three ticket-code strategies
+│   │   ├── service/                Business logic
+│   │   └── controller/             REST + Swagger
+│   └── package.json                npm test runs the 46 unit tests
+├── frontend/                       Next.js 15 frontend (port 3000)
+│   ├── app/                        App Router pages: /, /admin, /tickets/[id]
+│   ├── components/                 AnimatedTicket, TestResults, etc.
+│   └── package.json
+├── .github/workflows/ci.yml        ← bonus: CI/CD
+└── render.yaml + nixpacks.toml     deploy blueprints (Railway uses Dockerfile)
+</code></pre>
+
+<hr />
+<h2 id="5-how-to-run-locally-alternative-to-live-system">5. How to run locally (alternative to live system)</h2>
+<pre class="highlight"><code class="language-bash"># 1. Clone
+git clone https://github.com/MahmoudSayed0/Smart-E-ticket-PR.git
+cd Smart-E-ticket-PR
+
+# 2. Backend (terminal 1)
+cd backend
+npm install
+npm test                 # → 46 tests passing
+npm run start:dev        # → http://localhost:4000
+
+# 3. Frontend (terminal 2)
+cd frontend
+npm install
+npm run dev              # → http://localhost:3000/admin
+</code></pre>
+
+<p>Or, if you have Docker installed:</p>
+<pre class="highlight"><code class="language-bash">docker build -t eticketing ./backend
+docker run -p 4000:4000 eticketing
+</code></pre>
+
+<hr />
+<h2 id="6-rubric-coverage-at-a-glance">6. Rubric coverage at a glance</h2>
+<table>
+<thead>
+<tr>
+<th>Rubric</th>
+<th>Weight</th>
+<th>Covered by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SRS &amp; Requirements</td>
+<td>20%</td>
+<td><code>docs/SRS.md</code></td>
+</tr>
+<tr>
+<td>UML Diagrams</td>
+<td>15%</td>
+<td><code>docs/uml/</code> (5 diagrams)</td>
+</tr>
+<tr>
+<td>Architecture &amp; Design Patterns</td>
+<td>20%</td>
+<td><code>docs/ARCHITECTURE.md</code> + <code>backend/src/{repository,factory,strategy}</code></td>
+</tr>
+<tr>
+<td>Clean Code (SOLID)</td>
+<td>15%</td>
+<td>Source code itself + grep proof + <code>docs/ARCHITECTURE.md</code></td>
+</tr>
+<tr>
+<td>Testing</td>
+<td>10%</td>
+<td><code>docs/TEST_CASES.md</code> + <code>backend/src/**/*.spec.ts</code> (46 tests)</td>
+</tr>
+<tr>
+<td>Agile Process</td>
+<td>10%</td>
+<td>Notion workspace + <code>docs/presentation/study-guide.html</code> (team roles)</td>
+</tr>
+<tr>
+<td>Presentation</td>
+<td>10%</td>
+<td><code>docs/presentation/deck.html</code></td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td><strong>100%</strong></td>
+<td>All accounted for</td>
+</tr>
+<tr>
+<td><strong>Bonus — CI/CD</strong></td>
+<td>+</td>
+<td><code>.github/workflows/ci.yml</code> (live runs visible on GitHub)</td>
+</tr>
+<tr>
+<td><strong>Bonus — Docker</strong></td>
+<td>+</td>
+<td><code>backend/Dockerfile</code></td>
+</tr>
+<tr>
+<td><strong>Bonus — Live Deploy</strong></td>
+<td>+</td>
+<td>Vercel + Railway URLs above</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="7-team-roles">7. Team roles</h2>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Scrum Role</th>
+<th>Owns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Mahmoud</strong></td>
+<td>Product Owner &amp; Scrum Master</td>
+<td>SRS, scope, backlog grooming, sprint rituals, Notion</td>
+</tr>
+<tr>
+<td><strong>Mohammed</strong></td>
+<td>Software Engineer</td>
+<td>Architecture, use case + class diagrams, layered design</td>
+</tr>
+<tr>
+<td><strong>Esraa</strong></td>
+<td>Software Engineer</td>
+<td>Sequence + activity diagrams, schema, database-swap design</td>
+</tr>
+<tr>
+<td><strong>Ali</strong></td>
+<td>Backend Developer</td>
+<td>NestJS backend, Repository / Factory / Strategy in code, DI wiring</td>
+</tr>
+<tr>
+<td><strong>Amr</strong></td>
+<td>Frontend Developer</td>
+<td>Next.js 15 app, AnimatedTicket, soft-pop theme, SOLID audit, live demo</td>
+</tr>
+<tr>
+<td><strong>Seif</strong></td>
+<td>QA / Test Engineer</td>
+<td>Jest unit tests, coverage reports, this Test Cases document</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>End of delivery package — Smart E-Ticketing System v1.0 · Software Engineering 2026 · Supervised by Dr. Ihab Ramadan.</em></p>
+  </div>
+</section>
+
+  </main>
+
+</div>
+
+<script>
+  // active-section highlight as the user scrolls
+  const links = document.querySelectorAll('.nav-link');
+  const sections = [...links].map(a => document.getElementById(a.getAttribute('href').slice(1)));
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const id = e.target.id;
+      links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => s && obs.observe(s));
+</script>
+
+</body>
+</html>
