@@ -1,44 +1,76 @@
 # Test Cases Document
 ## Smart E-Ticketing System
 
-**Version:** 1.0
-**Prepared by:** QA / Test Engineer (Teammate D)
-**Last updated:** Sprint 4
+**Version:** 1.1
+**Prepared by:** Seif (QA / Test Engineer)
+**Reviewed by:** Mahmoud (Product Owner & Scrum Master)
+**Last updated:** Sprint 4 — final delivery
 
 ---
 
 ## 1. Purpose
 
-This document describes the human-readable manual test cases for the Smart E-Ticketing System, each mapped to an automated Jest unit test. It is used by the QA engineer during sprint reviews and by the whole team during the final demo.
+This document describes the human-readable test cases for the Smart E-Ticketing System, each mapped to an automated Jest unit test. It is used by the QA engineer during sprint reviews, by the team during the final demo, and by the supervising doctor to verify the **Testing (10%)** rubric criterion.
 
 ## 2. Test Strategy
 
-We use a **two-level testing approach**:
+A **two-level testing approach**:
 
 | Level | Tool | Target | Count |
 |---|---|---|---|
-| **Unit tests** | Jest + Mockito-style mocks | Services, repositories, domain entities, factory, strategies | 46 |
+| **Unit tests** | Jest + NestJS Testing utilities | Services, repositories, domain entities, factory, strategies | 46 |
 | **Manual tests** | Browser + Swagger UI | End-to-end user flows | 15 |
 
-**Coverage target**: ≥70% on the service layer. **Actual: 100% on service layer, 83% overall.**
+**Coverage targets vs actual**
+
+| Layer | Target | Actual |
+|---|---|---|
+| Repositories | 100% | **100%** ✓ |
+| Domain entities | 100% | **100%** ✓ |
+| Strategies | 100% | **100%** ✓ |
+| Factory | 100% | **100%** ✓ |
+| Services | ≥ 70% | **≥ 80%** ✓ |
+| Overall (excl. main.ts, modules, DTOs, enums, interfaces) | ≥ 70% | **≥ 83%** ✓ |
+
+Every service test injects a mock repository — the act of mocking *itself proves* that Dependency Inversion is wired correctly (services depend on the interface, not the in-memory class).
 
 ## 3. Test Environment
 
-- **Operating System**: macOS / Windows / Linux
-- **Node.js**: 20+
-- **Backend**: `npm run start:dev` on `localhost:4000`
-- **Frontend**: `npm run dev` on `localhost:3000`
-- **Browser**: Chrome / Firefox / Safari (latest)
+| Environment | URL |
+|---|---|
+| **Live frontend** | https://smart-e-ticket.vercel.app |
+| **Live backend (Docker on Railway)** | https://smart-eticketing-backend-production-0222.up.railway.app |
+| **Live Swagger UI** | https://smart-eticketing-backend-production-0222.up.railway.app/api-docs |
+| **Local frontend** | http://localhost:3000 |
+| **Local backend** | http://localhost:4000 |
+| **Local Swagger UI** | http://localhost:4000/api-docs |
+
+| Tool | Version |
+|---|---|
+| Node.js | 20+ |
+| npm | 10+ |
+| Browser | Chrome / Firefox / Safari latest |
 
 ## 4. How to Run the Automated Tests
 
+### Locally
+
 ```bash
 cd backend
-npm test                 # run all tests
-npm run test:cov         # with coverage report
+npm install              # one-time dependency install
+npm test                 # run all 46 tests (~4 sec)
+npm run test:cov         # with coverage report → backend/coverage/lcov-report/index.html
 ```
 
-Expected output: **Test Suites: 8 passed · Tests: 46 passed**.
+Expected output:
+```
+Test Suites: 8 passed, 8 total
+Tests:       46 passed, 46 total
+```
+
+### Continuously (CI)
+
+The same suite runs on **every push and every pull request** in [GitHub Actions](https://github.com/MahmoudSayed0/Smart-E-ticket-PR/actions/workflows/ci.yml). The README badge at the top of the project shows the latest run status. Coverage artefacts are attached to each workflow run and retained for 14 days.
 
 ## 5. Test Case Catalogue
 
@@ -161,10 +193,27 @@ Any failing test during manual execution should be recorded here:
 
 | Role | Name | Date | Signature |
 |---|---|---|---|
-| QA Engineer | Teammate D | __________ | __________ |
-| Lead Engineer | Mahmoud | __________ | __________ |
-| Product Owner | Teammate A | __________ | __________ |
+| QA / Test Engineer | Seif | __________ | __________ |
+| Backend Developer | Ali | __________ | __________ |
+| Software Engineer | Mohammed | __________ | __________ |
+| Product Owner & Scrum Master | Mahmoud | __________ | __________ |
 
 ---
 
-**END OF TEST CASES DOCUMENT v1.0**
+## 10. Delivery Checklist
+
+For the supervising doctor to verify each item:
+
+- [ ] **Source-code repo:** https://github.com/MahmoudSayed0/Smart-E-ticket-PR
+- [ ] **CI badge** on the README is green (latest workflow run passed all 46 tests)
+- [ ] `cd backend && npm install && npm test` produces `Tests: 46 passed`
+- [ ] `npm run test:cov` produces a coverage report with the percentages in section 2 above
+- [ ] Live frontend reachable at https://smart-e-ticket.vercel.app
+- [ ] Live backend reachable at https://smart-eticketing-backend-production-0222.up.railway.app/api-docs
+- [ ] Manual test cases TC-M-01 → TC-M-15 executed against either local or live system
+
+---
+
+**END OF TEST CASES DOCUMENT v1.1 — Final delivery copy**
+
+*Supervised by Dr. Ihab Ramadan · Software Engineering · 2026*

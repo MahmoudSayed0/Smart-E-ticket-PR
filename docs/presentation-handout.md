@@ -815,11 +815,11 @@ See `docs/DEMO_SCRIPT.md` for the full click-by-click script and narration for e
 | Scrum Role | Team Member | Primary Deliverable |
 |---|---|---|
 | **Software Engineer (Lead)** | Mahmoud | Backend architecture, design patterns, SOLID enforcement, code review, expiry rule |
-| **Product Owner** | Teammate A | SRS document (v1.0 → v1.1), user stories with acceptance criteria |
-| **Developer** | Teammate B | UML diagrams (5 PlantUML files), rendered PNGs, class diagram walkthrough |
-| **Developer** | Teammate C | Architecture & Design Patterns document, SOLID walkthrough |
-| **QA / Test Engineer** | Teammate D | Test cases document, Jest test execution, coverage report |
-| **Scrum Master** | Teammate E | Notion workspace, sprint plans, retrospectives, Git repo management |
+| **Product Owner** | Mahmoud | SRS document (v1.0 → v1.1), user stories with acceptance criteria |
+| **Developer** | Amr | UML diagrams (5 PlantUML files), rendered PNGs, class diagram walkthrough |
+| **Developer** | Mohammed | Architecture & Design Patterns document, SOLID walkthrough |
+| **QA / Test Engineer** | Seif | Test cases document, Jest test execution, coverage report |
+| **Scrum Master** | Esraa | Notion workspace, sprint plans, retrospectives, Git repo management |
 
 ---
 

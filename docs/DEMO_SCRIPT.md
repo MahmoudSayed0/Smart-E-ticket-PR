@@ -158,11 +158,11 @@ Do **all** of these 30 minutes before the presentation:
 ## 🎯 Anticipated Questions & Memorized Answers
 
 ### Q1: "What is the Repository pattern and why did you use it?"
-**A (Teammate C):**
+**A (Mohammed):**
 > "The Repository pattern is an abstraction over data persistence. It hides storage details behind an interface so that our business logic doesn't know whether data lives in RAM, a SQL database, or a cloud service. We have two repositories — `IEventRepository` and `ITicketRepository` — each with an in-memory implementation. Swapping to PostgreSQL later would only require writing one new class and changing one line in `app.module.ts`. The service layer wouldn't change at all. That's why the pattern is worth it even for an in-memory store."
 
 ### Q2: "Why did you pick the Strategy pattern for ticket codes?"
-**A (Teammate C):**
+**A (Mohammed):**
 > "Because ticket codes can be generated in many ways — UUIDs, short human-friendly codes like 'YNBJ-3NVP', or numeric codes. The choice should be swappable without modifying `TicketService`. Strategy encapsulates each algorithm behind an interface and lets us inject the desired one at runtime. This also makes it Open/Closed compliant — adding a new strategy never touches existing code."
 
 ### Q3: "Show me an example of Liskov Substitution in your code."
@@ -178,11 +178,11 @@ Do **all** of these 30 minutes before the presentation:
 > "Our assignment explicitly asks us to mock the database in-memory using the Repository pattern. The goal is to architect as if it were a real database so that swapping to PostgreSQL would require no changes in any service or controller. This was a deliberate decision to focus our time on design patterns and clean code, not on database setup — which is exactly what the course is about."
 
 ### Q6: "What is your test coverage?"
-**A (Teammate D):**
+**A (Seif):**
 > "We have 46 unit tests across 8 test suites. The domain, repository, service, and strategy layers are all at 100% line coverage. Overall we're at 83%. Every service test uses Jest's mocking to inject fake repositories and strategies, which proves our Dependency Inversion is correctly wired — if the services depended on concrete classes, we wouldn't be able to mock them in one line."
 
 ### Q7: "How did you manage Agile in a student team?"
-**A (Teammate E):**
+**A (Esraa):**
 > "We used Scrum with four one-week sprints. Every sprint had a Planning meeting, Daily Standups, a Review, and a Retrospective — all documented in our Notion workspace, which I can show you now. We used GitHub with feature branches and pull requests, and every PR referenced a user story ID from the product backlog. Here's the workspace — you can see every sprint page, every retrospective, and our product backlog with acceptance criteria in Given-When-Then format."
 
 ### Q8: "Why did you add the expiry rule? That wasn't in the original requirements."

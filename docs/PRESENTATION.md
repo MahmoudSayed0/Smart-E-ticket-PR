@@ -3,7 +3,7 @@
 
 **Duration:** 15 minutes (12 min presentation + 3 min Q&A)
 **Team Size:** 6
-**Owner:** Scrum Master (Teammate E) — coordinates slide ownership
+**Owner:** Scrum Master (Esraa) — coordinates slide ownership
 
 ---
 
@@ -31,7 +31,7 @@ Each teammate owns 1–2 slides and speaks about their ownership area.
 
 ---
 
-### Slide 2 — Problem & Scope (1 min) · **Teammate A (Product Owner)**
+### Slide 2 — Problem & Scope (1 min) · **Mahmoud (Product Owner)**
 **Content:**
 - One-sentence problem statement
 - In-scope bullets: Create events, generate one-time tickets, view/redeem, enforce expiry
@@ -42,7 +42,7 @@ Each teammate owns 1–2 slides and speaks about their ownership area.
 
 ---
 
-### Slide 3 — Requirements Summary (1 min) · **Teammate A**
+### Slide 3 — Requirements Summary (1 min) · **Mahmoud**
 **Content:**
 - 9 user stories across 4 sprints (30 story points)
 - Key functional requirements: FR-01 (create event), FR-02 (generate ticket), FR-04 (view ticket), FR-05 (redeem), FR-08 (enforce expiry)
@@ -53,7 +53,7 @@ Each teammate owns 1–2 slides and speaks about their ownership area.
 
 ---
 
-### Slide 4 — Architecture Overview (2 min) · **Teammate C**
+### Slide 4 — Architecture Overview (2 min) · **Mohammed**
 **Content:**
 - Four-layer diagram (Presentation → Controller → Service → Repository → Domain)
 - Each layer's responsibility in one line
@@ -64,7 +64,7 @@ Each teammate owns 1–2 slides and speaks about their ownership area.
 
 ---
 
-### Slide 5 — Class Diagram Walkthrough (2 min) · **Teammate B (Developer)**
+### Slide 5 — Class Diagram Walkthrough (2 min) · **Amr (Developer)**
 **Content:**
 - Full class diagram rendered from `docs/uml/class-diagram.puml`
 - Point to the 3 labeled pattern notes (Repository, Factory, Strategy)
@@ -74,7 +74,7 @@ Each teammate owns 1–2 slides and speaks about their ownership area.
 
 ---
 
-### Slide 6 — Design Pattern #1: Repository (1 min) · **Teammate C**
+### Slide 6 — Design Pattern #1: Repository (1 min) · **Mohammed**
 **Content:**
 - `ITicketRepository` interface (4 methods)
 - `InMemoryTicketRepository` implementation
@@ -85,7 +85,7 @@ Each teammate owns 1–2 slides and speaks about their ownership area.
 
 ---
 
-### Slide 7 — Design Pattern #2: Factory (1 min) · **Teammate C**
+### Slide 7 — Design Pattern #2: Factory (1 min) · **Mohammed**
 **Content:**
 - `EventFactory.createEvent(dto)` with the `switch` statement
 - Shows polymorphic return type `Event`
@@ -95,7 +95,7 @@ Each teammate owns 1–2 slides and speaks about their ownership area.
 
 ---
 
-### Slide 8 — Design Pattern #3: Strategy (1 min) · **Teammate C**
+### Slide 8 — Design Pattern #3: Strategy (1 min) · **Mohammed**
 **Content:**
 - `ITicketCodeStrategy` interface (1 method)
 - 3 implementations: `UuidCodeStrategy`, `ShortCodeStrategy`, `NumericCodeStrategy`
@@ -142,7 +142,7 @@ Each teammate owns 1–2 slides and speaks about their ownership area.
 
 ---
 
-### Slide 11 — Testing (1 min) · **Teammate D (QA)**
+### Slide 11 — Testing (1 min) · **Seif (QA)**
 **Content:**
 - Screenshot of Jest test output (8 suites, 46 tests, green)
 - Coverage report showing 100% on services/repos/strategies, 83% overall
@@ -153,7 +153,7 @@ Each teammate owns 1–2 slides and speaks about their ownership area.
 
 ---
 
-### Slide 12 — Agile Process (1 min) · **Teammate E (Scrum Master)**
+### Slide 12 — Agile Process (1 min) · **Esraa (Scrum Master)**
 **Content:**
 - Screenshot of the Notion workspace (sprint pages + product backlog)
 - Screenshot of GitHub showing feature branches and PRs

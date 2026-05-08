@@ -5,7 +5,7 @@
 **Date:** April 2026
 **Prepared by:** [Team Name]
 **Course:** Software Engineering
-**Owner:** Product Owner (Teammate A)
+**Owner:** Product Owner (Mahmoud)
 
 ---
 

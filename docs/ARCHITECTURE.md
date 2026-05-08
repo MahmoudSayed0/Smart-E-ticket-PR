@@ -3,7 +3,7 @@
 
 **Version:** 1.0
 **Prepared by:** [Team Name]
-**Owner:** Teammate C (Developer — formats + presents this in the demo)
+**Owner:** Mohammed (Developer — formats + presents this in the demo)
 
 ---
 

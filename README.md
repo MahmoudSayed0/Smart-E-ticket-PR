@@ -4,13 +4,24 @@
 
 [![CI](https://github.com/MahmoudSayed0/Smart-E-ticket-PR/actions/workflows/ci.yml/badge.svg)](https://github.com/MahmoudSayed0/Smart-E-ticket-PR/actions/workflows/ci.yml) ![Stack](https://img.shields.io/badge/backend-NestJS-red) ![Stack](https://img.shields.io/badge/frontend-Next.js-black) ![Stack](https://img.shields.io/badge/language-TypeScript-blue) ![Tests](https://img.shields.io/badge/tests-46_passing-green) ![Coverage](https://img.shields.io/badge/coverage-83%25-brightgreen) ![Storage](https://img.shields.io/badge/storage-in--memory_or_SQLite-blueviolet)
 
+## 🌐 Live Deployment
+
+| | URL | Stack |
+|---|---|---|
+| **Frontend** | [smart-e-ticket.vercel.app](https://smart-e-ticket.vercel.app) | Next.js 15 on **Vercel** |
+| **Backend API** | [smart-eticketing-backend-production-0222.up.railway.app](https://smart-eticketing-backend-production-0222.up.railway.app/api-docs) | NestJS in **Docker** on **Railway** (SQLite repository binding) |
+| **Swagger UI** | [`/api-docs`](https://smart-eticketing-backend-production-0222.up.railway.app/api-docs) | Auto-generated OpenAPI |
+| **GitHub Actions** | [Workflow runs](https://github.com/MahmoudSayed0/Smart-E-ticket-PR/actions/workflows/ci.yml) | Lint · test · build on every push |
+
+> ⚠️ The Railway free tier sleeps the backend after 15 min idle. Wake it by hitting the Swagger URL once before testing the live frontend.
+
 ## 🚢 CI/CD
 
 | Pipeline | Trigger | What it runs |
 |---|---|---|
 | **CI** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) | every push + every PR | install → lint → unit tests with coverage → build (backend + frontend in parallel) |
-| **CD — frontend** | push to `main` | auto-deploys to **Vercel**. Set Vercel project Root Directory to `frontend/`. Add `NEXT_PUBLIC_API_BASE` env var pointing to the deployed backend URL. |
-| **CD — backend** | push to `main` | auto-deploys to **Render** via [`render.yaml`](render.yaml). Provisions a free Node web service with a 1 GB persistent disk mounted at `/var/data`. SQLite stays alive across deploys. |
+| **CD — frontend** | push to `main` | auto-deploys to **Vercel** (project Root Directory = `frontend/`). `NEXT_PUBLIC_API_BASE` env var points at the Railway backend URL. |
+| **CD — backend** | push to `main` | builds **[`backend/Dockerfile`](backend/Dockerfile)** (Node 22, build tools for `better-sqlite3` native binding) and ships the container to **Railway**. `DB_DRIVER=sqlite` is set in the image so the SQLite repository binding kicks in at boot. |
 
 ### Pluggable storage — the Repository pattern in action
 
@@ -26,7 +37,7 @@ const useSqlite = process.env.DB_DRIVER === 'sqlite';
 | Environment | `DB_DRIVER` | Backing store |
 |---|---|---|
 | Local dev / `npm test` | unset | In-memory `Map<>` (fast, no setup) |
-| Render production | `sqlite` | `better-sqlite3` writing to `/var/data/eticketing.db` (persistent across deploys) |
+| Production (Railway, Docker) | `sqlite` | `better-sqlite3` writing to `data/eticketing.db` inside the container |
 
 `grep -r 'Sqlite\|InMemory' backend/src/service/` returns **zero matches** — services depend only on the interfaces. That is the entire point of the pattern, and you can witness it live by hitting the deployed URL.
 
@@ -245,14 +256,16 @@ All responses are JSON. All request DTOs are validated with `class-validator`.
 
 ## 👥 Team
 
-| Role (Scrum) | Name | Primary Deliverable |
+| Member | Scrum Role | Primary Deliverable |
 |---|---|---|
-| Software Engineer (Lead) | Mahmoud | Backend architecture, patterns, SOLID |
-| Product Owner | Teammate A | SRS document, user stories |
-| Developer | Teammate B | UML diagrams |
-| Developer | Teammate C | Design patterns documentation |
-| QA / Test Engineer | Teammate D | Test cases + Jest execution |
-| Scrum Master | Teammate E | Notion workspace, sprint artifacts, Git |
+| **Mahmoud** | Product Owner & Scrum Master | SRS, scope, backlog grooming, sprint rituals, Notion workspace, Definition of Done |
+| **Mohammed** | Software Engineer | Architecture, UML (use case + class), design rationale, layered architecture decisions |
+| **Esraa** | Software Engineer | Sequence + activity diagrams, schema, database-swap design, SOLID review |
+| **Ali** | Backend Developer | NestJS backend, the 3 GoF patterns in code (Repository · Factory · Strategy), Swagger, DI module wiring |
+| **Amr** | Frontend Developer | Next.js 15 frontend, `/admin` dashboard, `/tickets/[id]` page, AnimatedTicket, soft-pop theme, SOLID audit, live demo |
+| **Seif** | QA / Test Engineer | Jest unit tests, coverage reports, [test cases document](docs/TEST_CASES.md), mocking discipline |
+
+> Supervised by **Dr. Ihab Ramadan** · Software Engineering, 2026
 
 ## 📅 Agile Process
 
